@@ -1,0 +1,1836 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WSJ Korean Morning Brief</title>
+    <link rel="icon" href="/app-icon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <style>:root {
+  color: #111;
+  background: #fff;
+  font-family: "Noto Serif KR", "AppleMyungjo", "Nanum Myeongjo", "Source Han Serif K", Georgia, serif;
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+}
+
+a,
+button {
+  color: inherit;
+  font: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0274b6;
+}
+
+button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.wsj-page {
+  width: min(100%, 900px);
+  margin: 0 auto;
+  padding: 0 18px 56px;
+}
+
+.ticker {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  border-bottom: 1px solid #d9d9d9;
+  padding: 7px 0;
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.ticker a {
+  display: inline-flex;
+  gap: 5px;
+  align-items: baseline;
+}
+
+.ticker span {
+  color: #555;
+}
+
+.ticker strong {
+  font-weight: 700;
+}
+
+.ticker em {
+  font-style: normal;
+}
+
+.ticker .up em {
+  color: #17823b;
+}
+
+.ticker .down em {
+  color: #b3261e;
+}
+
+.site-header {
+  border-bottom: 1px solid #111;
+}
+
+.utility-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 24px;
+  min-height: 38px;
+  border-bottom: 1px solid #ececec;
+  color: #333;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.75rem;
+}
+
+.utility-row button {
+  min-height: 32px;
+  padding: 0 8px;
+  font-weight: 700;
+}
+
+.utility-row nav {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  overflow-x: auto;
+}
+
+.masthead {
+  display: block;
+  padding: 22px 0 12px;
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 7vw, 5.6rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.88;
+}
+
+.date-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 0 12px;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+}
+
+.archive-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  overflow-x: auto;
+  border-top: 1px solid #ececec;
+  padding: 8px 0;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.archive-nav a {
+  border: 1px solid #d6d6d6;
+  padding: 4px 8px;
+}
+
+.archive-nav a.active {
+  border-color: #111;
+  color: #111;
+  font-weight: 800;
+}
+
+.section-nav {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  overflow-x: auto;
+  border-top: 1px solid #ececec;
+  padding: 9px 0;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.article-flow {
+  padding-top: 18px;
+}
+
+.flow-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 2px solid #111;
+  padding-bottom: 8px;
+}
+
+.flow-heading h1 {
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.1;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.flow-heading p {
+  margin: 0;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  text-align: right;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.article-list {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.article-list > li {
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.story-item {
+  min-width: 0;
+  padding: 18px 0 20px;
+}
+
+.story-kicker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px 9px;
+  margin-bottom: 8px;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+  line-height: 1.25;
+}
+
+.story-number {
+  color: #111;
+  font-weight: 900;
+}
+
+.section-chip {
+  border-left: 1px solid #c9c9c9;
+  padding-left: 9px;
+  font-weight: 700;
+}
+
+.label {
+  color: #b3261e;
+  font-weight: 900;
+}
+
+.comments {
+  color: #666;
+}
+
+.duration {
+  color: #666;
+  font-weight: 700;
+}
+
+.comments::before {
+  content: "댓글 ";
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h2 {
+  max-width: 760px;
+  font-family: "Noto Serif KR", "AppleMyungjo", "Nanum Myeongjo", Georgia, serif;
+  font-size: clamp(1.38rem, 3.2vw, 2.12rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.16;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+p {
+  max-width: 720px;
+  margin-top: 8px;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.48;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.media-frame {
+  position: relative;
+  max-width: 660px;
+  margin-top: 13px;
+  background: #f2f2f2;
+}
+
+.media-frame img {
+  aspect-ratio: 16 / 9;
+}
+
+.media-frame span {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  min-width: 42px;
+  padding: 3px 6px;
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.english-block {
+  max-width: 720px;
+  margin-top: 9px;
+}
+
+.related-links {
+  display: grid;
+  gap: 8px;
+  max-width: 720px;
+  margin: 12px 0 0;
+  border-top: 1px solid #d6d6d6;
+  padding: 11px 0 0 18px;
+}
+
+.related-links li {
+  padding-left: 2px;
+  color: #111;
+}
+
+.related-links a {
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.25;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.related-links small {
+  margin-top: 3px;
+}
+
+small {
+  display: block;
+  color: #666;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.36;
+  overflow-wrap: anywhere;
+}
+
+small + small {
+  margin-top: 5px;
+}
+
+@media (max-width: 720px) {
+  .wsj-page {
+    padding-inline: 13px;
+  }
+
+  .utility-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 6px 0;
+  }
+
+  .utility-row nav {
+    justify-content: flex-start;
+  }
+
+  .masthead {
+    padding-top: 14px;
+    font-size: clamp(2.15rem, 12vw, 3.35rem);
+  }
+
+  .date-row {
+    display: grid;
+  }
+
+  .section-nav {
+    justify-content: flex-start;
+    gap: 18px;
+  }
+
+  .archive-nav {
+    justify-content: flex-start;
+  }
+
+  .flow-heading {
+    display: grid;
+    gap: 4px;
+  }
+
+  .flow-heading p {
+    text-align: left;
+  }
+
+  .story-item {
+    padding: 16px 0 18px;
+  }
+
+  h2 {
+    font-size: 1.38rem;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.96rem;
+  }
+}
+</style>
+  </head>
+  <body>
+    <main class="wsj-page">
+      <section class="ticker" aria-label="Market snapshot"></section>
+      <header class="site-header">
+        <div class="utility-row">
+          <button type="button">영문판(English)</button>
+          <nav aria-label="Tools">
+            <a>지면판(Print)</a>
+            <a>동영상(Video)</a>
+            <a>음성(Audio)</a>
+            <a>속보</a>
+            <a>퍼즐</a>
+          </nav>
+        </div>
+        <a class="masthead" href="https://www.wsj.com/" target="_blank" rel="noreferrer">The Wall Street Journal</a>
+        <div class="date-row">
+          <span>Wednesday, September 16, 2026</span>
+          <span>WSJ.com 첫 화면 순서를 한국어로 옮김</span>
+        </div>
+        <nav class="archive-nav" aria-label="Saved editions">
+    <a class="" href="/">최신판</a>
+    <a class="" href="/2026-09-20">2026-09-20</a><a class="active" href="/2026-09-16">2026-09-16</a><a class="" href="/2026-09-12">2026-09-12</a><a class="" href="/2026-09-11">2026-09-11</a><a class="" href="/2026-09-10">2026-09-10</a><a class="" href="/2026-09-09">2026-09-09</a><a class="" href="/2026-09-08">2026-09-08</a><a class="" href="/2026-09-07">2026-09-07</a><a class="" href="/2026-09-06">2026-09-06</a><a class="" href="/2026-09-05">2026-09-05</a><a class="" href="/2026-09-04">2026-09-04</a><a class="" href="/2026-09-03">2026-09-03</a><a class="" href="/2026-09-02">2026-09-02</a><a class="" href="/2026-09-01">2026-09-01</a><a class="" href="/2026-08-31">2026-08-31</a><a class="" href="/2026-08-30">2026-08-30</a><a class="" href="/2026-08-29">2026-08-29</a><a class="" href="/2026-08-28">2026-08-28</a><a class="" href="/2026-08-27">2026-08-27</a><a class="" href="/2026-08-26">2026-08-26</a><a class="" href="/2026-08-25">2026-08-25</a><a class="" href="/2026-08-24">2026-08-24</a><a class="" href="/2026-08-23">2026-08-23</a><a class="" href="/2026-08-22">2026-08-22</a><a class="" href="/2026-08-20">2026-08-20</a><a class="" href="/2026-08-19">2026-08-19</a><a class="" href="/2026-08-18">2026-08-18</a><a class="" href="/2026-08-17">2026-08-17</a><a class="" href="/2026-08-16">2026-08-16</a><a class="" href="/2026-08-15">2026-08-15</a><a class="" href="/2026-08-14">2026-08-14</a><a class="" href="/2026-08-13">2026-08-13</a><a class="" href="/2026-08-12">2026-08-12</a><a class="" href="/2026-08-11">2026-08-11</a><a class="" href="/2026-08-10">2026-08-10</a><a class="" href="/2026-08-09">2026-08-09</a><a class="" href="/2026-08-08">2026-08-08</a><a class="" href="/2026-08-07">2026-08-07</a><a class="" href="/2026-08-06">2026-08-06</a><a class="" href="/2026-08-05">2026-08-05</a>
+  </nav>
+        <nav class="section-nav" aria-label="WSJ sections">
+          <a>세계</a><a>미국</a><a>기업</a><a>시장</a><a>기술</a><a>오피니언</a><a>문화</a><a>부동산</a><a>스포츠</a>
+        </nav>
+      </header>
+      <section class="article-flow" aria-labelledby="article-flow-title">
+        <div class="flow-heading">
+          <h1 id="article-flow-title">전체 기사</h1>
+          <p>WSJ.com 첫 화면 순서 그대로</p>
+        </div>
+        <ol class="article-list">
+          <li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">01</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">1,572</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/europe/eu-chief-floats-plan-to-make-canada-first-associate-member-da300f13?mod=hp_lead_pos1" target="_blank" rel="noreferrer">EU 집행위원장, 캐나다의 준회원국 구상을 지지하다</a></h2>
+    <p>우르줄라 폰데어라이엔(Ursula von der Leyen)이 마크 카니(Mark Carney)의 EU 접근 구상에 호응했다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+    <ul class="related-links"><li><a href="https://www.wsj.com/world/europe/what-would-canadas-associate-membership-of-the-eu-look-like-2f65a931" target="_blank" rel="noreferrer">캐나다의 EU 준회원 지위는 어떤 형태일까?</a><small></small></li></ul>
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">02</span>
+      <span class="section-chip">주요 기사</span>
+      <span class="label">LIVE</span>
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/livecoverage/fed-meeting-warsh-interest-rate-09-16-2026?mod=hp_lead_pos2" target="_blank" rel="noreferrer">금융시장, 2023년 이후 첫 연준 금리 인상에 대비하다</a></h2>
+    <p>중동 전쟁에 따른 유가와 기대 인플레이션 상승이 금리 결정의 배경이다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+    <ul class="related-links"><li><a href="https://www.wsj.com/video/what-im-watching-for-at-the-biggest-fed-meeting-of-the-year/CBE71D12-64D9-4E39-9870-EA30678DF549" target="_blank" rel="noreferrer">영상: 닉 티미라오스(Nick Timiraos)가 짚는 연준 회의 관전 요소 세 가지</a><small></small></li></ul>
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">03</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">1,251</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/middle-east/the-u-s-is-burning-through-its-supply-of-interceptors-to-counter-irans-attacks-f42c5ecd?mod=hp_lead_pos3" target="_blank" rel="noreferrer">미국, 이란 공격 방어에 요격 미사일을 대량 사용하다</a></h2>
+    <p>요르단 방어에 Patriot와 THAAD 요격탄이 최소 70발 투입됐다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+    <ul class="related-links"><li><a href="https://www.wsj.com/politics/elections/vulnerable-gop-iowa-incumbents-break-with-trump-on-iran-war-8171e049" target="_blank" rel="noreferrer">Iowa 공화당 현역 의원들, 이란 전쟁에서 트럼프(Trump)와 입장을 달리하다</a><small></small></li></ul>
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">04</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/middle-east/debris-found-in-yemen-suggests-saudi-arabia-fired-its-first-chinese-missile-dfb8d9fe?mod=hp_lead_pos4" target="_blank" rel="noreferrer">예멘의 미사일 잔해, 사우디의 중국산 무기 사용 가능성을 보여주다</a></h2>
+    <p>사막에서 발견된 잔해는 Dongfeng 15로 추정된다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">05</span>
+      <span class="section-chip">주요 기사</span>
+
+      <span class="label">실시간(live)</span>
+
+
+      <span class="comments">94</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/tech/ai/apple-finally-built-a-smarter-siri-it-still-hasnt-caught-up-in-the-ai-race-2663601e?mod=hp_lead_pos5" target="_blank" rel="noreferrer">Apple의 새 Siri, AI 에이전트 앱들과 경쟁하다</a></h2>
+    <p>챗봇 기능을 갖춘 Siri가 Instinct·Muse 등의 경쟁에 직면했다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+    <ul class="related-links"><li><a href="https://www.wsj.com/tech/personal-tech/live-q-a-iphone-duo-ios-27-new-siri-d2786101" target="_blank" rel="noreferrer">iPhone Duo와 새 Siri에 관한 실시간 문답, 미 동부시간 오후 1시에 열리다</a><small></small></li></ul>
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">06</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">446</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/us-news/charlie-kirks-widow-says-in-legal-claim-university-failed-to-protect-him-967fc8a6?mod=hp_lead_pos6" target="_blank" rel="noreferrer">찰리 커크(Charlie Kirk) 유족, 대학의 보호 책임을 문제 삼다</a></h2>
+    <p>에리카 커크(Erika Kirk)가 총격 사망 사건 관련 소송 준비를 Utah 당국에 알렸다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">07</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">316</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/personal-finance/the-volatile-finances-of-airline-pilots-americas-unpredictable-millionaires-cd403364?mod=hp_lead_pos7" target="_blank" rel="noreferrer">미국 항공 조종사, 높은 소득에도 직장 의존 위험을 안다</a></h2>
+    <p>조종사의 수입은 클 수 있지만 경력이 한 항공사에 묶이는 경우가 많다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-21340929?width=400&amp;height=267" alt="미국 항공 조종사, 높은 소득에도 직장 의존 위험을 안다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">08</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">989</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/uk/elon-musk-uk-politics-9aba87a5?mod=hp_lead_pos8" target="_blank" rel="noreferrer">일론 머스크(Elon Musk), 영국의 반이민 신당을 지원하다</a></h2>
+    <p>머스크(Musk)가 소셜미디어를 통해 새 정당을 홍보하고 있다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+    <ul class="related-links"><li><a href="https://www.wsj.com/world/uk/this-english-village-is-threatening-to-quit-the-u-k-over-planned-asylum-camp-cd0d7610" target="_blank" rel="noreferrer">영국 마을, 망명 신청자 수용시설 계획에 반발해 분리를 거론하다</a><small></small></li></ul>
+    <div class="media-frame"><img src="https://images.wsj.net/im-17539114?width=400&amp;height=267" alt="일론 머스크(Elon Musk), 영국의 반이민 신당을 지원하다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">09</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">1,577</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/arts-culture/music/ed-sheerans-opening-acts-quit-in-solidarity-with-pro-palestinian-performer-6caa2034?mod=hp_lead_pos9" target="_blank" rel="noreferrer">에드 시런(Ed Sheeran) 공연의 사전 출연진, 팔레스타인 지지 가수와 연대해 하차하다</a></h2>
+    <p>매클모어(Macklemore)는 가자지구 관련 무대 발언 뒤 Loop Tour에서 제외됐다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-57340208?width=400&amp;height=267" alt="에드 시런(Ed Sheeran) 공연의 사전 출연진, 팔레스타인 지지 가수와 연대해 하차하다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">10</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">119</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/sports/baseball/mlb-position-players-pitching-1c653000?mod=hp_lead_pos10" target="_blank" rel="noreferrer">MLB의 야수 등판 증가, 경기 운영 논쟁을 낳다</a></h2>
+    <p>전문 투수 대신 야수를 마운드에 세우는 전략이 더 자주 쓰인다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">11</span>
+      <span class="section-chip">주요 기사</span>
+      <span class="label">EXCLUSIVE</span>
+
+
+
+      <span class="comments">65</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/personal-finance/retirement/how-blackrock-plans-to-make-the-corporate-401-k-look-more-like-a-pension-ace965f9?mod=hp_lead_pos11" target="_blank" rel="noreferrer">BlackRock, 기업 401(k)에 연금 성격을 강화하는 방안을 추진하다</a></h2>
+    <p>고용주 선택지를 늘리는 방향으로 목표시점 펀드 개편을 구상한다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">12</span>
+      <span class="section-chip">WSJ Opinion | Free Expression</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+    <div class="story-byline">루이즈 페리(Louise Perry)</div>
+    <h2><a href="https://www.wsj.com/opinion/free-expression/do-the-ai-doomsayers-have-a-hidden-agenda-157604aa?mod=hp_free-expression_topnews_pos1" target="_blank" rel="noreferrer">칼럼: AI 비관론의 동기를 묻다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-82356884?size=4" alt="칼럼: AI 비관론의 동기를 묻다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">13</span>
+      <span class="section-chip">WSJ Opinion | Free Expression</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+    <div class="story-byline">찰스 미첼(Charles Mitchell)</div>
+    <h2><a href="https://www.wsj.com/opinion/free-expression/ais-classroom-threat-goes-beyond-cheating-901d283a?mod=hp_free-expression_topnews_pos2" target="_blank" rel="noreferrer">칼럼: 교실의 AI 문제를 부정행위 너머에서 살피다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-89154080?size=4" alt="칼럼: 교실의 AI 문제를 부정행위 너머에서 살피다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">14</span>
+      <span class="section-chip">WSJ Opinion | Free Expression</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+    <div class="story-byline">잭 버틀러(Jack Butler)</div>
+    <h2><a href="https://www.wsj.com/opinion/free-expression/bo-frenchs-texas-sized-mistake-126fc6cb?mod=hp_free-expression_topnews_pos3" target="_blank" rel="noreferrer">칼럼: 보 프렌치(Bo French)의 행보를 비판하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-94242672?size=4" alt="칼럼: 보 프렌치(Bo French)의 행보를 비판하다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">15</span>
+      <span class="section-chip">음성 기사(Podcast)</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/podcasts/the-journal/are-budget-airlines-facing-extinction/5A0B9C31-C30C-4198-9E5E-134FCBE4B305" target="_blank" rel="noreferrer">팟캐스트: 저비용 항공사의 생존 문제를 다루다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-50289036?height=600&amp;size=1&amp;pixel_ratio=3&amp;width=600" alt="팟캐스트: 저비용 항공사의 생존 문제를 다루다" /><span>16:00</span></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">16</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">85</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/arts-culture/music/concerts-lionel-richie-barry-manilow-rod-stewart-a51b3d52?mod=hp_featst_pos3" target="_blank" rel="noreferrer">고령의 록 가수들, 뇌졸중 이후에도 무대에 서다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-74923928?width=600&amp;height=600" alt="고령의 록 가수들, 뇌졸중 이후에도 무대에 서다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">17</span>
+      <span class="section-chip">주요 기사</span>
+      <span class="label">DAWN GILBERTSON | CARRY ON</span>
+
+
+
+      <span class="comments">195</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/lifestyle/travel/how-to-press-your-case-when-your-airline-seat-gets-downgraded-ab39d145?mod=hp_featst_pos4" target="_blank" rel="noreferrer">Carry On: 항공 좌석 등급이 낮아졌을 때 대응 방법을 다루다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-01747843?width=600&amp;height=600" alt="Carry On: 항공 좌석 등급이 낮아졌을 때 대응 방법을 다루다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">18</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">105</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/health/wellness/oreo-gate-school-snacks-parents-teachers-fight-10594685?mod=hp_featst_pos5" target="_blank" rel="noreferrer">교사들이 전하는 학부모의 이례적인 간식 요구</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-09171292?width=600&amp;height=600" alt="교사들이 전하는 학부모의 이례적인 간식 요구" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">19</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/houthis-middle-east-bab-al-mandab-saudi-arabia-oil-3944cb9c?mod=hp_opin_pos_1" target="_blank" rel="noreferrer">사설: 후티 반군 대응 문제를 제기하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-34150003/?width=600&amp;height=600" alt="사설: 후티 반군 대응 문제를 제기하다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">20</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/look-what-you-made-me-sue-1b7a2fb8?mod=hp_opin_pos_2" target="_blank" rel="noreferrer">칼럼: 소송을 소재로 한 논평</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-31068421?width=600&amp;height=600" alt="칼럼: 소송을 소재로 한 논평" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">21</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/supreme-court-mail-ballots-election-donald-trump-usps-brett-kavanaugh-285ba413?mod=hp_opin_pos_3" target="_blank" rel="noreferrer">칼럼: 선거의 공정성 논쟁을 다루다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-69347043/?width=600&amp;height=600" alt="칼럼: 선거의 공정성 논쟁을 다루다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">22</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/u-s-space-weapons-air-force-troy-meink-china-f085eb2f?mod=hp_opin_pos_4" target="_blank" rel="noreferrer">칼럼: 미국 우주 무기의 평화 기여론을 제시하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-29890329/?width=600&amp;height=600" alt="칼럼: 미국 우주 무기의 평화 기여론을 제시하다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">23</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/new-york-regents-exams-high-school-graduates-255bf7f9?mod=hp_opin_pos_5" target="_blank" rel="noreferrer">칼럼: New York의 졸업 기준을 비판하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-11160313/?width=600&amp;height=600" alt="칼럼: New York의 졸업 기준을 비판하다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">24</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/notable-quotable-a-poetic-disclaimer-d5b85230?mod=hp_opin_pos_6" target="_blank" rel="noreferrer">Notable &amp; Quotable: 시 형식의 면책 문구를 소개하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-01181509/?width=600&amp;height=600" alt="Notable &amp; Quotable: 시 형식의 면책 문구를 소개하다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">25</span>
+      <span class="section-chip">미국</span>
+      <span class="label">0:00 Paused 0:00 / 1:41 Click for Sound</span>
+
+
+      <span class="duration">0:00</span>
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/us-news/nbc-news-helicopter-crashes-in-los-angeles-killing-three-dc7148e4?mod=hp_lista_pos1" target="_blank" rel="noreferrer">NBC News 헬기, Los Angeles에서 추락해 3명이 숨지다</a></h2>
+    <p>추락 지점은 Chatsworth의 셀프 보관시설 인근 주차장이다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">26</span>
+      <span class="section-chip">미국</span>
+
+
+
+
+      <span class="comments">1,192</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/policy/trumps-frustration-with-his-own-supreme-court-appointees-boils-over-39d7ff71?mod=hp_lista_pos2" target="_blank" rel="noreferrer">트럼프(Trump), 자신이 임명한 대법관들에게 불만을 표하다</a></h2>
+    <p>우편투표 제한이 제동을 받은 뒤 나온 발언을 토드 블랜치(Todd Blanche) 법무장관이 옹호했다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">27</span>
+      <span class="section-chip">미국</span>
+      <span class="label">EXCLUSIVE</span>
+
+
+
+      <span class="comments">1,079</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/national-security/pentagon-seeks-fit-troops-for-upcoming-hegseth-speech-45626103?mod=hp_lista_pos3" target="_blank" rel="noreferrer">국방부, 헤그세스(Hegseth) 연설 참석 장병의 체형·용모 기준을 정하다</a></h2>
+    <p>참석 대상에게 허리둘레와 키의 비율, 단정한 외관을 요구한다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">28</span>
+      <span class="section-chip">Economy</span>
+
+
+
+
+      <span class="comments">291</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/american-businesses-have-no-idea-how-to-set-prices-right-now-061274e0?mod=lead_feature_below_a_pos1" target="_blank" rel="noreferrer">기업들, 높은 에너지 가격의 지속 기간을 가늠하지 못하다</a></h2>
+    <p>에너지 비용 전망의 불확실성이 여러 업종에 영향을 준다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-86281151?width=600&amp;height=600" alt="기업들, 높은 에너지 가격의 지속 기간을 가늠하지 못하다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">29</span>
+      <span class="section-chip">Economy</span>
+
+
+
+
+      <span class="comments">340</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/energy-oil/americans-have-spent-100-billion-more-on-fuel-during-the-iran-war-377952a1?mod=lead_feature_below_a_pos2" target="_blank" rel="noreferrer">이란 전쟁 중 미국인의 연료 지출이 1,000억 달러 늘다</a></h2>
+    <p>휘발유·경유 가격 상승으로 가계의 저축과 다른 소비 여력이 줄었다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">30</span>
+      <span class="section-chip">Economy</span>
+
+
+
+
+      <span class="comments">549</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/economy/housing/the-stagnant-housing-market-is-about-to-face-a-7-mortgage-55a041d6?mod=lead_feature_below_a_pos3" target="_blank" rel="noreferrer">주택담보대출 금리, 7%에 가까워지다</a></h2>
+    <p>2025년 1월 이후 최고 수준에 접근하며 주택시장에 부담을 더한다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">31</span>
+      <span class="section-chip">세계</span>
+
+
+
+
+      <span class="comments">7</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/europe/former-kosovo-president-sentenced-to-25-years-for-war-crimes-in-serbia-c1aa4063?mod=hp_listb_pos1" target="_blank" rel="noreferrer">코소보 전 대통령, 전쟁범죄로 징역 25년을 선고받다</a></h2>
+    <p>하심 타치(Hashim Thaci)가 옛 유고슬라비아 분쟁 관련 재판에서 유죄 판결을 받았다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-01834976?width=600&amp;height=600" alt="코소보 전 대통령, 전쟁범죄로 징역 25년을 선고받다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">32</span>
+      <span class="section-chip">Politics</span>
+      <span class="label">DAMIAN PALETTA | POLITICS NEWSLETTER</span>
+
+
+
+      <span class="comments">6</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/articles/will-the-trump-xi-dinner-bring-ai-enemies-musk-and-altman-to-the-table-be873a34?mod=hp_listb_pos2" target="_blank" rel="noreferrer">트럼프(Trump)·시진핑(Xi) 만찬에 머스크(Musk)와 올트먼(Altman)이 함께할까?</a></h2>
+    <p>WSJ는 정상회담에서 미국 기업들의 공조가 갖는 의미를 다룬다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">33</span>
+      <span class="section-chip">Politics</span>
+
+
+
+
+      <span class="comments">69</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/national-security/u-s-eyes-china-and-russia-as-pentagon-confirms-space-weapons-2e373e47?mod=hp_listb_pos3" target="_blank" rel="noreferrer">미국, 중국·러시아를 의식하며 우주 무기 배치를 인정하다</a></h2>
+    <p>미 당국이 그동안 공개하지 않았던 우주 무기 배치 사실을 확인했다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">34</span>
+      <span class="section-chip">In Depth</span>
+
+
+
+
+      <span class="comments">622</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/articles/see-why-this-years-el-nino-is-expected-to-be-the-most-powerful-yet-1fec11cf?mod=hp_listc_pos1" target="_blank" rel="noreferrer">올해 엘니뇨의 강도와 기상이변 위험을 살피다</a></h2>
+    <p>태평양 주변에 나타난 영향에 이어 미국에도 극한 기상이 우려된다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-97733962?width=600&amp;height=600" alt="올해 엘니뇨의 강도와 기상이변 위험을 살피다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">35</span>
+      <span class="section-chip">Tech</span>
+
+
+
+
+      <span class="comments">73</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/tech/ai/openai-considers-pre-ipo-funding-round-at-more-than-1-2-trillion-valuation-54555295?mod=hp_listc_pos2" target="_blank" rel="noreferrer">OpenAI, 기업가치 1조 2,000억 달러를 넘는 상장 전 투자 유치를 검토하다</a></h2>
+    <p>투자자와 초기 논의를 진행했으며 상장은 내년이 유력하다고 WSJ가 보도했다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">36</span>
+      <span class="section-chip">Tech</span>
+      <span class="label">HEARD ON THE STREET</span>
+
+
+
+      <span class="comments">1</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/health/pharma/trump-administration-shift-puts-this-corner-of-biotech-back-in-favor-2abc0ae3?mod=hp_listc_pos3" target="_blank" rel="noreferrer">미 행정부의 규제 기조 변화로 희귀질환 바이오 투자에 관심이 돌아오다</a></h2>
+    <p>FDA 강경파 퇴진 뒤 관련 투자에 자금이 유입된다.</p>
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">37</span>
+      <span class="section-chip">동영상(Video)</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/video/i-joined-the-irish-navy-to-patrol-against-growing-russian-threats/7F8CCF40-B101-4A52-B4A6-B653B0E9EBF7?mod=trending_now_video_1" target="_blank" rel="noreferrer">영상: 러시아 위협에 대응하는 아일랜드 해군 순찰에 동행하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-03607475?width=1280&amp;height=720" alt="영상: 러시아 위협에 대응하는 아일랜드 해군 순찰에 동행하다" /><span>10:50</span></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">38</span>
+      <span class="section-chip">동영상(Video)</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/video/ios-27-six-things-to-try-with-the-new-siri-ai/C99725C8-8D04-44CE-9BA5-99A0EB8F4EA4?mod=trending_now_video_2" target="_blank" rel="noreferrer">영상: iOS 27의 새 Siri AI 기능 여섯 가지를 살피다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-91404706?width=1280&amp;height=720" alt="영상: iOS 27의 새 Siri AI 기능 여섯 가지를 살피다" /><span>4:23</span></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">39</span>
+      <span class="section-chip">동영상(Video)</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/video" target="_blank" rel="noreferrer">영상: 런던의 진흙 속 탐사에 1만 명이 몰리는 이유</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-17507437?width=1280&amp;height=720" alt="영상: 런던의 진흙 속 탐사에 1만 명이 몰리는 이유" /><span>8:19</span></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">40</span>
+      <span class="section-chip">Economy</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/economy/u-s-retail-sales-rebounded-last-month-cdb4a2e0?mod=hp_major_pos1" target="_blank" rel="noreferrer">미국 소매판매가 반등하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-66785285?width=900&amp;height=600" alt="미국 소매판매가 반등하다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">41</span>
+      <span class="section-chip">Economy</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/economy/housing/canada-housing-starts-edge-down-in-august-9d41ab48?mod=hp_major_pos2" target="_blank" rel="noreferrer">캐나다의 8월 주택 착공이 소폭 줄다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">42</span>
+      <span class="section-chip">Economy</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/economy/u-k-inflation-rises-ahead-of-boe-rate-call-1f1a6c08?mod=hp_major_pos3" target="_blank" rel="noreferrer">영국 물가상승률, 중앙은행 금리 결정 앞두고 오르다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">43</span>
+      <span class="section-chip">부동산</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/real-estate/the-mall-comeback-is-here-228c387f?mod=hp_major_pos1" target="_blank" rel="noreferrer">쇼핑몰 회복 움직임을 살피다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-84662484?width=900&amp;height=600" alt="쇼핑몰 회복 움직임을 살피다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">44</span>
+      <span class="section-chip">부동산</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/real-estate/dave-winfield-touching-all-the-bases-f4b8eaff?mod=hp_major_pos2" target="_blank" rel="noreferrer">데이브 윈필드(Dave Winfield), 고교 시절 MLB 지명 대신 대학을 택한 배경</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">45</span>
+      <span class="section-chip">부동산</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/real-estate/airbnb-sets-up-250-million-fund-to-invest-in-housing-construction-d729ab8c?mod=hp_major_pos3" target="_blank" rel="noreferrer">Airbnb, 주택 건설 투자에 2억 5,000만 달러 펀드를 조성하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">46</span>
+      <span class="section-chip">Sports</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/sports/baseball/venable-chicago-white-sox-princeton-fa766299?mod=hp_major_pos1" target="_blank" rel="noreferrer">Princeton 농구 선수 출신 인물이 이끄는 야구팀의 반전을 다루다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-12666182?width=900&amp;height=600" alt="Princeton 농구 선수 출신 인물이 이끄는 야구팀의 반전을 다루다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">47</span>
+      <span class="section-chip">Sports</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/sports/basketball/steve-ballmer-la-clippers-nba-punishment-8f2d940b?mod=hp_major_pos2" target="_blank" rel="noreferrer">스티브 발머(Steve Ballmer)와 NBA의 관계를 다루다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">48</span>
+      <span class="section-chip">Sports</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/sports/football/patrick-mahomes-kenneth-walker-kansas-city-chiefs-19f5fe3e?mod=hp_major_pos3" target="_blank" rel="noreferrer">패트릭 마홈스(Patrick Mahomes)의 복귀와 새로운 전력을 살피다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">49</span>
+      <span class="section-chip">CMO</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/cmo-today/aperols-maker-bets-americans-are-ready-for-a-pinker-sweeter-spritz-be49468e" target="_blank" rel="noreferrer">Aperol 제조사, 미국에서 더 달콤한 분홍색 스프리츠를 선보이다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-05635089?width=900&amp;height=600" alt="Aperol 제조사, 미국에서 더 달콤한 분홍색 스프리츠를 선보이다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">50</span>
+      <span class="section-chip">CMO</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/cmo-today/mac-and-cheese-disruptor-goodles-to-be-acquired-by-barilla-1804a40e" target="_blank" rel="noreferrer">Barilla가 Goodles를 인수하기로 하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">51</span>
+      <span class="section-chip">CMO</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/cmo-today/james-dyson-sold-us-on-a-400-hair-dryer-now-hes-trying-a-499-toothbrush-c2740126" target="_blank" rel="noreferrer">제임스 다이슨(James Dyson), 499달러 전동칫솔에 도전하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">52</span>
+      <span class="section-chip">CIO</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/cio-journal/the-complicated-reality-behind-ai-token-limits-10298543" target="_blank" rel="noreferrer">AI 토큰 한도의 작동 방식과 복잡성을 살피다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-10125681?width=900&amp;height=600" alt="AI 토큰 한도의 작동 방식과 복잡성을 살피다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">53</span>
+      <span class="section-chip">CIO</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/cio-journal/google-cloud-accenture-launch-unit-to-put-ai-engineers-on-site-with-customers-698a8628" target="_blank" rel="noreferrer">Google Cloud와 Accenture, 고객사 현장에 AI 엔지니어를 배치하는 조직을 출범하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">54</span>
+      <span class="section-chip">CIO</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/tech/businesses-are-spending-big-on-quantum-c73060ad" target="_blank" rel="noreferrer">기업의 양자기술 투자가 늘다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">55</span>
+      <span class="section-chip">CFO</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/cfo-journal/on-holdings-aversion-to-discounting-tested-by-softer-retail-sales-1e2e7bf8" target="_blank" rel="noreferrer">On Holding, 소매판매 둔화 속 할인 억제 전략을 시험받다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-32539152?width=900&amp;height=600" alt="On Holding, 소매판매 둔화 속 할인 억제 전략을 시험받다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">56</span>
+      <span class="section-chip">CFO</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/cfo-journal/companies-plow-tariff-refunds-into-price-cuts-appealing-to-stretched-consumers-c5f683b1" target="_blank" rel="noreferrer">기업들, 관세 환급금을 가격 인하에 활용하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">57</span>
+      <span class="section-chip">CFO</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/cfo-journal/crocss-plan-to-turn-short-term-pain-into-long-term-gain-4ae32bb6" target="_blank" rel="noreferrer">Crocs의 단기 부담과 장기 성장 전략을 살피다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">58</span>
+      <span class="section-chip">Risk &amp; Compliance</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/policy/landmark-crypto-bill-fails-procedural-vote-casting-doubt-on-new-digital-asset-rules-d6fc4c47" target="_blank" rel="noreferrer">암호화폐 법안, 주요 표결에서 부결되다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-90739600?width=900&amp;height=600" alt="암호화폐 법안, 주요 표결에서 부결되다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">59</span>
+      <span class="section-chip">Risk &amp; Compliance</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/economy/trade/u-s-pressures-mexico-to-box-out-chinas-ai-hardware-exports-4f708103" target="_blank" rel="noreferrer">미국, 중국산 AI 하드웨어 수출을 제한하도록 멕시코를 압박하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">60</span>
+      <span class="section-chip">Risk &amp; Compliance</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/finance/currencies/doj-says-binance-customers-used-crypto-exchange-to-funnel-iran-oil-money-d546b0a9" target="_blank" rel="noreferrer">미 법무부, Binance 고객들의 이란 석유대금 중개 의혹을 제기하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">61</span>
+      <span class="section-chip">Logistics Report</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/logistics-report/mucinex-maker-bets-400-million-more-on-u-s-supply-chain-5c795042" target="_blank" rel="noreferrer">Mucinex 제조사, 미국 공급망에 4억 달러를 추가 투입하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-587816?width=900&amp;height=600" alt="Mucinex 제조사, 미국 공급망에 4억 달러를 추가 투입하다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">62</span>
+      <span class="section-chip">Logistics Report</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/logistics-report/lineage-sues-solar-panel-operator-over-l-a-warehouse-fire-732d627a" target="_blank" rel="noreferrer">Lineage, Los Angeles 창고 화재와 관련해 태양광 설비 운영사를 제소하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">63</span>
+      <span class="section-chip">Logistics Report</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/logistics-report/the-panama-canals-new-boss-inherits-a-drought-and-a-bidding-war-for-transit-slots-dc32dace" target="_blank" rel="noreferrer">파나마 운하 새 책임자, 가뭄과 통항권 입찰 경쟁에 직면하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">64</span>
+      <span class="section-chip">Elections</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/elections/democrats-have-midterm-momentum-heres-what-risks-tripping-them-up-ed0a0418?mod=hp_minor_pos16" target="_blank" rel="noreferrer">민주당의 중간선거 과제를 다루다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-20790045?width=900&amp;height=600" alt="민주당의 중간선거 과제를 다루다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">65</span>
+      <span class="section-chip">Elections</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/elections/for-trump-a-golf-trip-to-ireland-tees-up-a-reunification-controversy-bf3c2f17?mod=hp_minor_pos17" target="_blank" rel="noreferrer">트럼프(Trump)의 아일랜드 골프 방문, 통일 논쟁으로 이어지다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">66</span>
+      <span class="section-chip">Elections</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/elections/republicans-growing-ken-paxton-anxiety-he-may-not-be-the-best-looking-guy-e6500b33?mod=hp_minor_pos18" target="_blank" rel="noreferrer">공화당 내 켄 팩스턴(Ken Paxton) 관련 우려를 다루다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">67</span>
+      <span class="section-chip">Heard on the Street</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/finance/investing/bond-yields-could-come-down-as-fast-as-theyve-climbed-d64ea9cd?mod=hp_minor_pos19" target="_blank" rel="noreferrer">Heard on the Street: 채권 수익률의 하락 가능성을 다루다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-93131238?width=900&amp;height=600" alt="Heard on the Street: 채권 수익률의 하락 가능성을 다루다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">68</span>
+      <span class="section-chip">Heard on the Street</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/finance/why-mortgage-bonds-are-at-risk-if-rates-riseand-if-they-fall-ff897dd5?mod=hp_minor_pos20" target="_blank" rel="noreferrer">Heard on the Street: 금리 변동 양방향의 주택저당채권 위험을 살피다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">69</span>
+      <span class="section-chip">Heard on the Street</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/health/pharma/heart-disease-a-historic-strength-for-big-pharma-becomes-a-weakness-983f0062?mod=hp_minor_pos21" target="_blank" rel="noreferrer">Heard on the Street: 대형 제약사의 심장질환 사업 과제를 다루다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">70</span>
+      <span class="section-chip">동영상(Video)</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/video/news-helicopter-crashes-in-los-angeles-killing-three/F808E30E-5062-4A4C-8103-840760335A4A?mod=trending_now_video_3" target="_blank" rel="noreferrer">영상: Los Angeles 뉴스 헬기 추락으로 3명이 숨지다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-69798164?width=115&amp;height=65" alt="영상: Los Angeles 뉴스 헬기 추락으로 3명이 숨지다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">71</span>
+      <span class="section-chip">동영상(Video)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/video/series/journal-editorial-report/wsj-opinion-the-campus-free-speech-fight/BE18A053-9A6C-4A1E-8476-0B285A6BFB4A?mod=trending_now_video_4" target="_blank" rel="noreferrer">WSJ Opinion 영상: 대학의 표현의 자유 논쟁을 다루다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-26453041?width=115&amp;height=65" alt="WSJ Opinion 영상: 대학의 표현의 자유 논쟁을 다루다" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">72</span>
+      <span class="section-chip">동영상(Video)</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/video/series/the-one-magazine/why-olivia-dean-still-loves-man-i-need-and-more/FA4BEDE0-CB91-4238-9E13-9E0EC0A825D7?mod=trending_now_video_5" target="_blank" rel="noreferrer">영상: 올리비아 딘(Olivia Dean)이 Man I Need를 이야기하다</a></h2>
+
+    <div class="english-block">
+      <small></small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-98599302?width=115&amp;height=65" alt="영상: 올리비아 딘(Olivia Dean)이 Man I Need를 이야기하다" /></div>
+  </article></li>
+        </ol>
+      </section>
+    </main>
+  </body>
+</html>

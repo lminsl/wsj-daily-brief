@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WSJ Korean Morning Brief</title>
+    <link rel="icon" href="/app-icon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <style>:root {
+  color: #111;
+  background: #fff;
+  font-family: "Noto Serif KR", "AppleMyungjo", "Nanum Myeongjo", "Source Han Serif K", Georgia, serif;
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+}
+
+a,
+button {
+  color: inherit;
+  font: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0274b6;
+}
+
+button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.wsj-page {
+  width: min(100%, 900px);
+  margin: 0 auto;
+  padding: 0 18px 56px;
+}
+
+.ticker {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  border-bottom: 1px solid #d9d9d9;
+  padding: 7px 0;
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.ticker a {
+  display: inline-flex;
+  gap: 5px;
+  align-items: baseline;
+}
+
+.ticker span {
+  color: #555;
+}
+
+.ticker strong {
+  font-weight: 700;
+}
+
+.ticker em {
+  font-style: normal;
+}
+
+.ticker .up em {
+  color: #17823b;
+}
+
+.ticker .down em {
+  color: #b3261e;
+}
+
+.site-header {
+  border-bottom: 1px solid #111;
+}
+
+.utility-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 24px;
+  min-height: 38px;
+  border-bottom: 1px solid #ececec;
+  color: #333;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.75rem;
+}
+
+.utility-row button {
+  min-height: 32px;
+  padding: 0 8px;
+  font-weight: 700;
+}
+
+.utility-row nav {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  overflow-x: auto;
+}
+
+.masthead {
+  display: block;
+  padding: 22px 0 12px;
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 7vw, 5.6rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.88;
+}
+
+.date-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 0 12px;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+}
+
+.archive-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  overflow-x: auto;
+  border-top: 1px solid #ececec;
+  padding: 8px 0;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.archive-nav a {
+  border: 1px solid #d6d6d6;
+  padding: 4px 8px;
+}
+
+.archive-nav a.active {
+  border-color: #111;
+  color: #111;
+  font-weight: 800;
+}
+
+.section-nav {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  overflow-x: auto;
+  border-top: 1px solid #ececec;
+  padding: 9px 0;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.article-flow {
+  padding-top: 18px;
+}
+
+.flow-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 2px solid #111;
+  padding-bottom: 8px;
+}
+
+.flow-heading h1 {
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.1;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.flow-heading p {
+  margin: 0;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  text-align: right;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.article-list {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.article-list > li {
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.story-item {
+  min-width: 0;
+  padding: 18px 0 20px;
+}
+
+.story-kicker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px 9px;
+  margin-bottom: 8px;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+  line-height: 1.25;
+}
+
+.story-number {
+  color: #111;
+  font-weight: 900;
+}
+
+.section-chip {
+  border-left: 1px solid #c9c9c9;
+  padding-left: 9px;
+  font-weight: 700;
+}
+
+.label {
+  color: #b3261e;
+  font-weight: 900;
+}
+
+.comments {
+  color: #666;
+}
+
+.duration {
+  color: #666;
+  font-weight: 700;
+}
+
+.comments::before {
+  content: "댓글 ";
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h2 {
+  max-width: 760px;
+  font-family: "Noto Serif KR", "AppleMyungjo", "Nanum Myeongjo", Georgia, serif;
+  font-size: clamp(1.38rem, 3.2vw, 2.12rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.16;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+p {
+  max-width: 720px;
+  margin-top: 8px;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.48;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.media-frame {
+  position: relative;
+  max-width: 660px;
+  margin-top: 13px;
+  background: #f2f2f2;
+}
+
+.media-frame img {
+  aspect-ratio: 16 / 9;
+}
+
+.media-frame span {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  min-width: 42px;
+  padding: 3px 6px;
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.english-block {
+  max-width: 720px;
+  margin-top: 9px;
+}
+
+.related-links {
+  display: grid;
+  gap: 8px;
+  max-width: 720px;
+  margin: 12px 0 0;
+  border-top: 1px solid #d6d6d6;
+  padding: 11px 0 0 18px;
+}
+
+.related-links li {
+  padding-left: 2px;
+  color: #111;
+}
+
+.related-links a {
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.25;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.related-links small {
+  margin-top: 3px;
+}
+
+small {
+  display: block;
+  color: #666;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.36;
+  overflow-wrap: anywhere;
+}
+
+small + small {
+  margin-top: 5px;
+}
+
+@media (max-width: 720px) {
+  .wsj-page {
+    padding-inline: 13px;
+  }
+
+  .utility-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 6px 0;
+  }
+
+  .utility-row nav {
+    justify-content: flex-start;
+  }
+
+  .masthead {
+    padding-top: 14px;
+    font-size: clamp(2.15rem, 12vw, 3.35rem);
+  }
+
+  .date-row {
+    display: grid;
+  }
+
+  .section-nav {
+    justify-content: flex-start;
+    gap: 18px;
+  }
+
+  .archive-nav {
+    justify-content: flex-start;
+  }
+
+  .flow-heading {
+    display: grid;
+    gap: 4px;
+  }
+
+  .flow-heading p {
+    text-align: left;
+  }
+
+  .story-item {
+    padding: 16px 0 18px;
+  }
+
+  h2 {
+    font-size: 1.38rem;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.96rem;
+  }
+}
+</style>
+  </head>
+  <body>
+    <main class="wsj-page">
+      <section class="ticker" aria-label="Market snapshot"><a class="down"><span>DJIA</span><strong>53414.25</strong><em>-0.51%</em></a><a class="down"><span>S&amp;P 500</span><strong>7718.60</strong><em>-0.38%</em></a><a class="down"><span>Nasdaq</span><strong>26506.99</strong><em>-0.29%</em></a><a class="up"><span>Russell 2000</span><strong>2975.65</strong><em>0.25%</em></a><a class="up"><span>U.S. 10 Yr</span><strong>4.789%</strong><em>0/32</em></a><a class="up"><span>VIX</span><strong>14.53</strong><em>1.47%</em></a><a class="down"><span>Gold</span><strong>4452.00</strong><em>-0.55%</em></a><a class="down"><span>Bitcoin</span><strong>79243.59</strong><em>-0.12%</em></a><a class="up"><span>Crude Oil</span><strong>92.70</strong><em>1.33%</em></a><a class="down"><span>Dollar Index</span><strong>94.99</strong><em>-0.27%</em></a></section>
+      <header class="site-header">
+        <div class="utility-row">
+          <button type="button">영문판(English)</button>
+          <nav aria-label="Tools">
+            <a>지면판(Print)</a>
+            <a>동영상(Video)</a>
+            <a>음성(Audio)</a>
+            <a>속보</a>
+            <a>퍼즐</a>
+          </nav>
+        </div>
+        <a class="masthead" href="https://www.wsj.com/" target="_blank" rel="noreferrer">The Wall Street Journal</a>
+        <div class="date-row">
+          <span>Monday, September 7, 2026</span>
+          <span>WSJ.com 첫 화면 순서를 한국어로 옮김</span>
+        </div>
+        <nav class="archive-nav" aria-label="Saved editions">
+    <a class="" href="/">최신판</a>
+    <a class="" href="/2026-09-20">2026-09-20</a><a class="" href="/2026-09-16">2026-09-16</a><a class="" href="/2026-09-12">2026-09-12</a><a class="" href="/2026-09-11">2026-09-11</a><a class="" href="/2026-09-10">2026-09-10</a><a class="" href="/2026-09-09">2026-09-09</a><a class="" href="/2026-09-08">2026-09-08</a><a class="active" href="/2026-09-07">2026-09-07</a><a class="" href="/2026-09-06">2026-09-06</a><a class="" href="/2026-09-05">2026-09-05</a><a class="" href="/2026-09-04">2026-09-04</a><a class="" href="/2026-09-03">2026-09-03</a><a class="" href="/2026-09-02">2026-09-02</a><a class="" href="/2026-09-01">2026-09-01</a><a class="" href="/2026-08-31">2026-08-31</a><a class="" href="/2026-08-30">2026-08-30</a><a class="" href="/2026-08-29">2026-08-29</a><a class="" href="/2026-08-28">2026-08-28</a><a class="" href="/2026-08-27">2026-08-27</a><a class="" href="/2026-08-26">2026-08-26</a><a class="" href="/2026-08-25">2026-08-25</a><a class="" href="/2026-08-24">2026-08-24</a><a class="" href="/2026-08-23">2026-08-23</a><a class="" href="/2026-08-22">2026-08-22</a><a class="" href="/2026-08-20">2026-08-20</a><a class="" href="/2026-08-19">2026-08-19</a><a class="" href="/2026-08-18">2026-08-18</a><a class="" href="/2026-08-17">2026-08-17</a><a class="" href="/2026-08-16">2026-08-16</a><a class="" href="/2026-08-15">2026-08-15</a><a class="" href="/2026-08-14">2026-08-14</a><a class="" href="/2026-08-13">2026-08-13</a><a class="" href="/2026-08-12">2026-08-12</a><a class="" href="/2026-08-11">2026-08-11</a><a class="" href="/2026-08-10">2026-08-10</a><a class="" href="/2026-08-09">2026-08-09</a><a class="" href="/2026-08-08">2026-08-08</a><a class="" href="/2026-08-07">2026-08-07</a><a class="" href="/2026-08-06">2026-08-06</a><a class="" href="/2026-08-05">2026-08-05</a>
+  </nav>
+        <nav class="section-nav" aria-label="WSJ sections">
+          <a>세계</a><a>미국</a><a>기업</a><a>시장</a><a>기술</a><a>오피니언</a><a>문화</a><a>부동산</a><a>스포츠</a>
+        </nav>
+      </header>
+      <section class="article-flow" aria-labelledby="article-flow-title">
+        <div class="flow-heading">
+          <h1 id="article-flow-title">전체 기사</h1>
+          <p>WSJ.com 첫 화면 순서 그대로</p>
+        </div>
+        <ol class="article-list">
+          <li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">01</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">629</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">이란의 석유 달러가 말라가며 위기를 더 깊게 만들다</a></h2>
+    <p>U.S. 봉쇄와 이미 해상에 있는 공급 감소가 테헤란의 가장 중요한 수출 수익원을 압박하고 있다.</p>
+    <div class="english-block">
+      <small>Iran’s Oil Dollars Are Drying Up—and Plunging It Deeper Into Crisis</small>
+      <small>The U.S. blockade and dwindling supplies already on the water are squeezing Tehran’s most important export earner.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">02</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">1,666</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">대학 학위 없는 미국인들이 수년 만에 가장 좋은 고용시장을 맞다</a></h2>
+    <p>대학에 가지 않은 젊은 노동자의 실업률은 최근 수십 년 동안 드물게 낮은 수준이다. 대학 졸업자에게는 정반대 흐름이다.</p>
+    <div class="english-block">
+      <small>Americans Without College Degrees Have One of the Best Job Markets in Years</small>
+      <small>Unemployment among younger workers who didn’t go to college has rarely been lower in recent decades. It is the opposite story for college graduates.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">03</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">Robinhood가 Oura IPO에서 주관사 역할을 따내다</a></h2>
+    <p>IPO 절차에서 공식 역할을 맡으면 Robinhood가 고객에게 배정되는 주식 수에 더 큰 영향력을 가질 수 있다.</p>
+    <div class="english-block">
+      <small>Robinhood Wins a New Role in the Oura IPO: Underwriter</small>
+      <small>Playing an official part in the IPO process could give Robinhood more influence over the number of shares allocated to its customers.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">04</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">609</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">우크라이나 드론 공격이 러시아 경제를 압박하는 방식</a></h2>
+    <p>우크라이나는 정유시설, 선적 터미널, e-commerce 창고를 타격해 더 큰 적을 약화하려 한다. 비용은 계속 쌓이고 있다.</p>
+    <div class="english-block">
+      <small>How Ukrainian Drone Strikes Are Pounding Russia’s Economy</small>
+      <small>Kyiv seeks to weaken its larger enemy by hitting refineries, shipping terminals and e-commerce warehouses. The costs are adding up.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">05</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">313</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">트럼프(Trump)의 새 명칭 변경 표적은 New Mexico</a></h2>
+    <p>대통령은 주 이름을 New America로 바꾸자고 요구하지만, 변경을 강제할 권한은 없다.</p>
+    <div class="english-block">
+      <small>Trump’s Latest Target for a Name Change: New Mexico</small>
+      <small>The president calls for changing the state’s name to New America, though he doesn’t have the power to force the switch.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">06</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">772</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">Georgia에서 GOP Senate 선거 캠페인이 처참하게 꼬이다</a></h2>
+    <p>스캔들이 존 오소프(Jon Ossoff) 상원의원을 꺾으려는 마이크 콜린스(Mike Collins) 하원의원의 도전에 부담이 되고 있다.</p>
+    <div class="english-block">
+      <small>The GOP Senate Campaign Gone Disastrously Wrong in Georgia</small>
+      <small>Scandals are weighing on Rep. Mike Collins’s bid to topple Sen. Jon Ossoff.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">07</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">407</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">9·11 테러 25년 뒤 Lower Manhattan이 활기를 되찾다</a></h2>
+    <p>인구가 세 배로 늘고 미디어와 tech 기업이 들어오면서 Financial District는 다른 U.S. 도심이 부러워하는 지역이 됐다.</p>
+    <div class="english-block">
+      <small>25 Years After the Sept. 11 Attacks, Lower Manhattan Is Thriving</small>
+      <small>Its population has tripled while media and tech firms have moved in, making the Financial District the envy of other U.S. downtowns.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">08</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">79</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">극우 승리 이후 메르츠(Merz)가 정부를 지키는 좁은 길에 서다</a></h2>
+    <p>주 선거 결과는 독일대안당(Alternative for Germany)을 권력 밖에 묶어 둔 방화벽의 미래를 둘러싼 논쟁으로 이어질 수 있다.</p>
+    <div class="english-block">
+      <small>After Far-Right Triumph, Merz Faces Narrow Path to Save His Government</small>
+      <small>The state election result could lead to a debate over the future of the firewall that has kept the Alternative for Germany out of power.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">09</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">파나마 운하 새 수장이 가뭄과 통항 슬롯 입찰전을 물려받다</a></h2>
+    <p>일리야 에스피노 데 마로타(Ilya Espino de Marotta)는 낮은 수위가 선박 운항을 제한하고 경매 가격을 사상 최고인 530만 달러까지 끌어올린 상황에서 취임한다.</p>
+    <div class="english-block">
+      <small>The Panama Canal’s New Boss Inherits a Drought and a Bidding War for Transit Slots</small>
+      <small>Ilya Espino de Marotta takes over as low water restricts shipping and drives auction prices to a record $5.3 million.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">10</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">378</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">환자들이 최신 암 치료를 받으러 중국으로 날아가다</a></h2>
+    <p>상하이는 biotechnology 혁신을 찾는 America와 다른 부유국 환자들이 선호하는 목적지로 떠오르고 있다.</p>
+    <div class="english-block">
+      <small>Patients Are Flying to China for the Latest Cancer Treatment</small>
+      <small>Shanghai is emerging as a favored destination for patients from America and other rich countries who are seeking innovations in biotechnology.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">11</span>
+      <span class="section-chip">음성 기사(Podcast)</span>
+
+
+
+
+      <span class="comments">541</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">젊은 층이 이 단순한 은퇴저축 공식에 빠지다</a></h2>
+
+    <div class="english-block">
+      <small>Young People Are Obsessed With This Simple Retirement-Savings Formula</small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">12</span>
+      <span class="section-chip">음성 기사(Podcast)</span>
+
+
+
+
+      <span class="comments">114</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">Oktoberfest에서 법적 다툼이 벌어질 조짐이 보이다</a></h2>
+
+    <div class="english-block">
+      <small>There’s a Legal Fight Brewing at Oktoberfest</small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">13</span>
+      <span class="section-chip">음성 기사(Podcast)</span>
+      <span class="label">EXCLUSIVE</span>
+
+
+
+      <span class="comments">115</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">헌터 바이든(Hunter Biden)과 그의 laptop이 새 meme coin으로 cryptosphere에 들어서다</a></h2>
+
+    <div class="english-block">
+      <small>Hunter Biden (and His Laptop) Enter the Cryptosphere With New Meme Coin</small>
+
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">14</span>
+      <span class="section-chip">미국</span>
+
+
+
+
+      <span class="comments">454</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">Amazon 화물기가 Miami 활주로를 벗어나 5명이 사망하다</a></h2>
+    <p>Miami-Dade Fire Rescue 60여 개 부대가 현장에 출동해 불길을 잡고 부상자를 확인했다.</p>
+    <div class="english-block">
+      <small>Amazon Cargo Plane Overshoots Runway in Miami, Killing Five People</small>
+      <small>More than 60 Miami-Dade Fire Rescue units rushed to the scene to put out the flames and assess any injuries.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">15</span>
+      <span class="section-chip">세계</span>
+
+
+
+
+      <span class="comments">34</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">북한은 김정은(Kim)을 곤혹스럽게 했던 전복 군함이 배치됐다고 말하다</a></h2>
+    <p>북한 독재자는 Kang Kon이 북한에 핵 탑재 가능 해군력을 제공한다고 주장한다.</p>
+    <div class="english-block">
+      <small>North Korea Says Toppled Warship That Embarrassed Kim Is Deployed</small>
+      <small>The North Korean dictator claims the Kang Kon gives North Korea a nuclear-capable navy.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">16</span>
+      <span class="section-chip">세계</span>
+
+
+
+
+      <span class="comments">12</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">벨기에의 중국인 chip-tech 절도 혐의자 체포가 유럽의 Beijing 우려를 키우다</a></h2>
+    <p>검찰은 지난 5월 Beijing으로 떠나려다 구금된 이 남성이 중국 기업에 기밀을 빼돌렸다고 의심한다.</p>
+    <div class="english-block">
+      <small>Belgium’s Arrest of Chinese Alleged Chip-Tech Thief Fuels European Fear of Beijing</small>
+      <small>Prosecutors suspect the man, detained while leaving for Beijing in May, was siphoning secrets to a Chinese company.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">17</span>
+      <span class="section-chip">The Auto Business</span>
+
+
+
+
+      <span class="comments">1,838</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">자동차 업체들이 EV 주행거리를 늘릴 새 해법으로 가솔린 엔진을 붙이다</a></h2>
+    <p>Hyundai, Ford, Stellantis는 주행거리 불안을 풀기 위해 가솔린 발전기를 단 대형 EV를 내놓을 계획이다.</p>
+    <div class="english-block">
+      <small>Carmakers Have a New Idea to Boost EV Range: Add a Gas Engine</small>
+      <small>Hyundai, Ford and Stellantis are planning to introduce larger EVs with gas generators to solve range anxiety.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">18</span>
+      <span class="section-chip">The Auto Business</span>
+
+
+
+
+      <span class="comments">52</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">Range Rover 제조사가 트럼프(Trump) 관세 여파로 4,000명을 감원하다</a></h2>
+    <p>Jaguar Land Rover는 거세지는 중국 경쟁과 U.S. 관세라는 역풍을 맞고 있으며 조직을 단순화해야 한다고 밝혔다.</p>
+    <div class="english-block">
+      <small>Range Rover Maker to Cut 4,000 Jobs as Trump’s Tariffs Bite</small>
+      <small>Jaguar Land Rover faces headwinds from intensifying Chinese competition and U.S. tariffs and said that it must simplify its organization.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">19</span>
+      <span class="section-chip">The Auto Business</span>
+
+
+
+
+      <span class="comments">5</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">중국 기업이 졸업생 100명을 채용 한 달 만에 해고해 비판을 받다</a></h2>
+    <p>자국 젊은 층이 암울한 고용시장에 직면한 가운데, 대형 auto parts 업체가 당국과 갈등에 휘말렸다.</p>
+    <div class="english-block">
+      <small>Chinese Company Draws Fire for Laying Off 100 Grads a Month After Hiring Them</small>
+      <small>The major auto parts maker landed in hot water with authorities as young people in the country face a bleak job market.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">20</span>
+      <span class="section-chip">Sports</span>
+
+
+
+
+      <span class="comments">56</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">College Football 키커들은 저평가됐다. 그러다 그들은 문자하기 시작했다</a></h2>
+    <p>주목받지 못하던 포지션의 선수들은 조용하지만 강력한 정보망을 만들었고, 이를 큰 폭의 보수 인상에 활용하고 있다.</p>
+    <div class="english-block">
+      <small>College Football Kickers Were Underpaid. Then They Started Texting.</small>
+      <small>Players at the afterthought position have created a quiet but powerful information network and are leveraging it for big pay raises.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">21</span>
+      <span class="section-chip">Style</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">비 오는 날을 위한 luxury 필수품 다섯 가지</a></h2>
+    <p>속담처럼 나쁜 날씨는 없고 나쁜 옷차림만 있다. 스타일과 날씨 대비를 갖춘 아이템으로 그 말을 시험해 볼 수 있다.</p>
+    <div class="english-block">
+      <small>Five Luxury Essentials for Rainy Days</small>
+      <small>As the saying goes, there’s no such thing as bad weather, only bad clothing. Put that adage to the test with stylish, weather-ready finds.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">22</span>
+      <span class="section-chip">Style</span>
+
+
+
+
+      <span class="comments">9</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">전 세계가 이 일본 sneakers에 빠지다</a></h2>
+    <p>엔화 약세와 클래식한 디자인이 관광객을 Tokyo 매장으로 끌어들이면서 Onitsuka Tigers가 전성기를 맞고 있다.</p>
+    <div class="english-block">
+      <small>The World Can’t Get Enough of These Japanese Sneakers</small>
+      <small>Onitsuka Tigers are having a moment as a weak yen and classic looks lure tourists to Tokyo stores.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">23</span>
+      <span class="section-chip">Retirement</span>
+
+
+
+
+      <span class="comments">265</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">Pensions가 사라질 위기에서 돌아오고 있다</a></h2>
+    <p>일부 기업은 직원을 채용하거나 노조와의 협상을 타결하기 위해 사라졌던 복리후생을 다시 꺼내고 있다.</p>
+    <div class="english-block">
+      <small>Pensions Were on the Brink of Extinction. Now Companies Are Bringing Them Back.</small>
+      <small>Some companies are turning to the lost benefit to recruit employees or settle negotiations with labor unions.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">24</span>
+      <span class="section-chip">People to Know</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">한 여성이 Epstein의 ‘cult’에 걸려들었다가 빠져나온 이야기</a></h2>
+    <p>줄리아 몰차노바(Julia Molchanova)는 Jeffrey Epstein을 만났을 때 22세였고 영어를 거의 하지 못했다. 그가 처음으로 자신의 이야기를 들려준다.</p>
+    <div class="english-block">
+      <small>How One Woman Was Caught in Epstein’s ‘Cult’—and Escaped</small>
+      <small>Julia Molchanova was 22 and spoke little English when she met Jeffrey Epstein. For the first time, she tells her story.</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">25</span>
+      <span class="section-chip">People to Know</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">리 페이스(Lee Pace)는 아침에 여섯 사람 몫의 커피를 마신다</a></h2>
+    <p>이 배우는 “카페인을 느끼지 못한다”고 말한다.</p>
+    <div class="english-block">
+      <small>Lee Pace Drinks Coffee for Six People in the Morning</small>
+      <small>The actor says he “doesn’t notice the caffeine.”</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">26</span>
+      <span class="section-chip">동영상(Video)</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">의사가 병원 설계 뒤의 생명을 살리는 비밀을 밝히다</a></h2>
+
+    <div class="english-block">
+      <small>Doctor Reveals the Life-Saving Secrets Behind Hospital Design</small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-51645929" alt="Doctor Reveals the Life-Saving Secrets Behind Hospital Design" /><span>8:54</span></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">27</span>
+      <span class="section-chip">동영상(Video)</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">북한에서 밀반입된 스마트폰을 시험하다</a></h2>
+
+    <div class="english-block">
+      <small>We Tested a Smartphone Smuggled From North Korea</small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-49365114" alt="We Tested a Smartphone Smuggled From North Korea" /><span>5:02</span></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">28</span>
+      <span class="section-chip">동영상(Video)</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">Aperol이 Spritz를 중심으로 9억 달러 글로벌 브랜드를 만든 방식</a></h2>
+
+    <div class="english-block">
+      <small>How Aperol Built a $900 Million Global Brand Around the Spritz</small>
+
+    </div>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-26575797" alt="How Aperol Built a $900 Million Global Brand Around the Spritz" /><span>8:53</span></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">29</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">민주당은 페터먼(Fetterman)을 “on a Pike” 상태로 몰아가고 싶어 한다</a></h2>
+    <p>The Editorial Board</p>
+    <div class="english-block">
+      <small>Democrats Want Fetterman ‘on a Pike’</small>
+      <small>The Editorial Board</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">30</span>
+      <span class="section-chip">WSJ Opinion | Free Expression</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">맘다니(Mamdani)의 펜은 경멸의 메시지다</a></h2>
+    <p>매슈 헤네시(Matthew Hennessey) 칼럼</p>
+    <div class="english-block">
+      <small>Mamdani’s Pen Is a Message of Contempt</small>
+      <small>By Matthew Hennessey</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">31</span>
+      <span class="section-chip">WSJ Opinion | Free Expression</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">패라지(Farage)가 막판에 흔들리다</a></h2>
+    <p>도미닉 그린(Dominic Green) 칼럼</p>
+    <div class="english-block">
+      <small>Farage Falters at the Finish</small>
+      <small>By Dominic Green</small>
+    </div>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">32</span>
+      <span class="section-chip">WSJ Opinion | Free Expression</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/" target="_blank" rel="noreferrer">Hollywood, 스스로를 치유하라</a></h2>
+    <p>카일 스미스(Kyle Smith) 칼럼</p>
+    <div class="english-block">
+      <small>Hollywood, Heal Thyself</small>
+      <small>By Kyle Smith</small>
+    </div>
+
+
+  </article></li>
+        </ol>
+      </section>
+    </main>
+  </body>
+</html>
