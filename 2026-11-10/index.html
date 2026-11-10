@@ -1,0 +1,1591 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/wsj-daily-brief/" />
+    <title>WSJ Korean Morning Brief</title>
+    <link rel="icon" href="/wsj-daily-brief/app-icon.svg" />
+    <link rel="apple-touch-icon" href="/wsj-daily-brief/apple-touch-icon.png" />
+    <style>:root {
+  color: #111;
+  background: #fff;
+  font-family: "Noto Serif KR", "AppleMyungjo", "Nanum Myeongjo", "Source Han Serif K", Georgia, serif;
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+}
+
+a,
+button {
+  color: inherit;
+  font: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0274b6;
+}
+
+button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.wsj-page {
+  width: min(100%, 900px);
+  margin: 0 auto;
+  padding: 0 18px 56px;
+}
+
+.ticker {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  border-bottom: 1px solid #d9d9d9;
+  padding: 7px 0;
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.ticker a {
+  display: inline-flex;
+  gap: 5px;
+  align-items: baseline;
+}
+
+.ticker span {
+  color: #555;
+}
+
+.ticker strong {
+  font-weight: 700;
+}
+
+.ticker em {
+  font-style: normal;
+}
+
+.ticker .up em {
+  color: #17823b;
+}
+
+.ticker .down em {
+  color: #b3261e;
+}
+
+.site-header {
+  border-bottom: 1px solid #111;
+}
+
+.utility-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 24px;
+  min-height: 38px;
+  border-bottom: 1px solid #ececec;
+  color: #333;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.75rem;
+}
+
+.utility-row button {
+  min-height: 32px;
+  padding: 0 8px;
+  font-weight: 700;
+}
+
+.utility-row nav {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  overflow-x: auto;
+}
+
+.masthead {
+  display: block;
+  padding: 22px 0 12px;
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 7vw, 5.6rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.88;
+}
+
+.date-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 0 12px;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+}
+
+.archive-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  overflow-x: auto;
+  border-top: 1px solid #ececec;
+  padding: 8px 0;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.archive-nav a {
+  border: 1px solid #d6d6d6;
+  padding: 4px 8px;
+}
+
+.archive-nav a.active {
+  border-color: #111;
+  color: #111;
+  font-weight: 800;
+}
+
+.section-nav {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  overflow-x: auto;
+  border-top: 1px solid #ececec;
+  padding: 9px 0;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.article-flow {
+  padding-top: 18px;
+}
+
+.flow-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 2px solid #111;
+  padding-bottom: 8px;
+}
+
+.flow-heading h1 {
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.1;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.flow-heading p {
+  margin: 0;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  text-align: right;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.article-list {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.article-list > li {
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.story-item {
+  min-width: 0;
+  padding: 18px 0 20px;
+}
+
+.story-kicker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px 9px;
+  margin-bottom: 8px;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+  line-height: 1.25;
+}
+
+.story-number {
+  color: #111;
+  font-weight: 900;
+}
+
+.section-chip {
+  border-left: 1px solid #c9c9c9;
+  padding-left: 9px;
+  font-weight: 700;
+}
+
+.label {
+  color: #b3261e;
+  font-weight: 900;
+}
+
+.comments {
+  color: #666;
+}
+
+.duration {
+  color: #666;
+  font-weight: 700;
+}
+
+.comments::before {
+  content: "댓글 ";
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h2 {
+  max-width: 760px;
+  font-family: "Noto Serif KR", "AppleMyungjo", "Nanum Myeongjo", Georgia, serif;
+  font-size: clamp(1.38rem, 3.2vw, 2.12rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.16;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+p {
+  max-width: 720px;
+  margin-top: 8px;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.48;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.media-frame {
+  position: relative;
+  max-width: 660px;
+  margin-top: 13px;
+  background: #f2f2f2;
+}
+
+.media-frame img {
+  aspect-ratio: 16 / 9;
+}
+
+.media-frame span {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  min-width: 42px;
+  padding: 3px 6px;
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.english-block {
+  max-width: 720px;
+  margin-top: 9px;
+}
+
+.related-links {
+  display: grid;
+  gap: 8px;
+  max-width: 720px;
+  margin: 12px 0 0;
+  border-top: 1px solid #d6d6d6;
+  padding: 11px 0 0 18px;
+}
+
+.related-links li {
+  padding-left: 2px;
+  color: #111;
+}
+
+.related-links a {
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.25;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.related-links small {
+  margin-top: 3px;
+}
+
+small {
+  display: block;
+  color: #666;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.36;
+  overflow-wrap: anywhere;
+}
+
+small + small {
+  margin-top: 5px;
+}
+
+@media (max-width: 720px) {
+  .wsj-page {
+    padding-inline: 13px;
+  }
+
+  .utility-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 6px 0;
+  }
+
+  .utility-row nav {
+    justify-content: flex-start;
+  }
+
+  .masthead {
+    padding-top: 14px;
+    font-size: clamp(2.15rem, 12vw, 3.35rem);
+  }
+
+  .date-row {
+    display: grid;
+  }
+
+  .section-nav {
+    justify-content: flex-start;
+    gap: 18px;
+  }
+
+  .archive-nav {
+    justify-content: flex-start;
+  }
+
+  .flow-heading {
+    display: grid;
+    gap: 4px;
+  }
+
+  .flow-heading p {
+    text-align: left;
+  }
+
+  .story-item {
+    padding: 16px 0 18px;
+  }
+
+  h2 {
+    font-size: 1.38rem;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.96rem;
+  }
+}
+</style>
+  </head>
+  <body>
+    <main class="wsj-page">
+      <section class="ticker" aria-label="Market snapshot"></section>
+      <header class="site-header">
+        <div class="utility-row">
+          <button type="button">영문판(English)</button>
+          <nav aria-label="Tools">
+            <a>지면판(Print)</a>
+            <a>동영상(Video)</a>
+            <a>음성(Audio)</a>
+            <a>속보</a>
+            <a>퍼즐</a>
+          </nav>
+        </div>
+        <a class="masthead" href="https://www.wsj.com/" target="_blank" rel="noreferrer">The Wall Street Journal</a>
+        <div class="date-row">
+          <span>Tuesday, November 10, 2026</span>
+          <span>WSJ.com 첫 화면 순서를 한국어로 옮김</span>
+        </div>
+        <nav class="archive-nav" aria-label="Saved editions">
+    <a class="active" href="/">최신판</a>
+    <a class="active" href="/2026-11-10">2026-11-10</a><a class="" href="/2026-11-07">2026-11-07</a><a class="" href="/2026-11-06">2026-11-06</a><a class="" href="/2026-10-22">2026-10-22</a><a class="" href="/2026-10-21">2026-10-21</a><a class="" href="/2026-10-20">2026-10-20</a><a class="" href="/2026-10-16">2026-10-16</a><a class="" href="/2026-10-15">2026-10-15</a><a class="" href="/2026-10-14">2026-10-14</a><a class="" href="/2026-10-13">2026-10-13</a><a class="" href="/2026-10-12">2026-10-12</a><a class="" href="/2026-10-11">2026-10-11</a><a class="" href="/2026-10-08">2026-10-08</a><a class="" href="/2026-10-07">2026-10-07</a><a class="" href="/2026-10-06">2026-10-06</a><a class="" href="/2026-10-05">2026-10-05</a><a class="" href="/2026-10-04">2026-10-04</a><a class="" href="/2026-10-03">2026-10-03</a><a class="" href="/2026-10-02">2026-10-02</a><a class="" href="/2026-10-01">2026-10-01</a><a class="" href="/2026-09-30">2026-09-30</a><a class="" href="/2026-09-29">2026-09-29</a><a class="" href="/2026-09-28">2026-09-28</a><a class="" href="/2026-09-27">2026-09-27</a><a class="" href="/2026-09-25">2026-09-25</a><a class="" href="/2026-09-24">2026-09-24</a><a class="" href="/2026-09-23">2026-09-23</a><a class="" href="/2026-09-21">2026-09-21</a><a class="" href="/2026-09-20">2026-09-20</a><a class="" href="/2026-09-16">2026-09-16</a><a class="" href="/2026-09-12">2026-09-12</a><a class="" href="/2026-09-11">2026-09-11</a><a class="" href="/2026-09-10">2026-09-10</a><a class="" href="/2026-09-09">2026-09-09</a><a class="" href="/2026-09-08">2026-09-08</a><a class="" href="/2026-09-07">2026-09-07</a><a class="" href="/2026-09-06">2026-09-06</a><a class="" href="/2026-09-05">2026-09-05</a><a class="" href="/2026-09-04">2026-09-04</a><a class="" href="/2026-09-03">2026-09-03</a><a class="" href="/2026-09-02">2026-09-02</a><a class="" href="/2026-09-01">2026-09-01</a><a class="" href="/2026-08-31">2026-08-31</a><a class="" href="/2026-08-30">2026-08-30</a><a class="" href="/2026-08-29">2026-08-29</a><a class="" href="/2026-08-28">2026-08-28</a><a class="" href="/2026-08-27">2026-08-27</a><a class="" href="/2026-08-26">2026-08-26</a><a class="" href="/2026-08-25">2026-08-25</a><a class="" href="/2026-08-24">2026-08-24</a><a class="" href="/2026-08-23">2026-08-23</a><a class="" href="/2026-08-22">2026-08-22</a><a class="" href="/2026-08-20">2026-08-20</a><a class="" href="/2026-08-19">2026-08-19</a><a class="" href="/2026-08-18">2026-08-18</a><a class="" href="/2026-08-17">2026-08-17</a><a class="" href="/2026-08-16">2026-08-16</a><a class="" href="/2026-08-15">2026-08-15</a><a class="" href="/2026-08-14">2026-08-14</a><a class="" href="/2026-08-13">2026-08-13</a><a class="" href="/2026-08-12">2026-08-12</a><a class="" href="/2026-08-11">2026-08-11</a><a class="" href="/2026-08-10">2026-08-10</a><a class="" href="/2026-08-09">2026-08-09</a><a class="" href="/2026-08-08">2026-08-08</a><a class="" href="/2026-08-07">2026-08-07</a><a class="" href="/2026-08-06">2026-08-06</a><a class="" href="/2026-08-05">2026-08-05</a>
+  </nav>
+        <nav class="section-nav" aria-label="WSJ sections">
+          <a>세계</a><a>미국</a><a>기업</a><a>시장</a><a>기술</a><a>오피니언</a><a>문화</a><a>부동산</a><a>스포츠</a>
+        </nav>
+      </header>
+      <section class="article-flow" aria-labelledby="article-flow-title">
+        <div class="flow-heading">
+          <h1 id="article-flow-title">전체 기사</h1>
+          <p>WSJ.com 첫 화면 순서 그대로</p>
+        </div>
+        <ol class="article-list">
+          <li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">01</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">62</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/finance/stocks/anthropic-ipo-valuation-8337b669?mod=mhp" target="_blank" rel="noreferrer">Anthropic, 1조3000억 달러 기업가치로 IPO 추진한다</a></h2>
+    <p>Claude 개발사의 증시 데뷔는 AI 투자(AI trade)를 두고 불안해하는 투자자들에게 시금석으로 여겨진다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Anthropic to Seek $1.3 Trillion Valuation in IPO</small>
+      <small>The Claude maker’s stock-market debut is seen as a litmus test for investors on edge over the AI trade.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">02</span>
+      <span class="section-chip">주요 기사</span>
+      <span class="label">What the Jensen Huang Scandal Could Mean for Nvidia 0:28 AD Playing Tap for Sound</span>
+
+
+      <span class="duration">0:28</span>
+      <span class="comments">380</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/tech/ai/how-jensen-huangs-affair-spiraled-into-a-national-security-nightmare-d9b43304?mod=mhp" target="_blank" rel="noreferrer">젠슨 황(Jensen Huang)의 불륜은 어떻게 국가안보 악몽으로 번졌나</a></h2>
+    <p>중국 스파이 혐의를 받는 여성과의 불륜을 인정한 Nvidia CEO는 수출 통제 완화를 위해 도널드 트럼프(Donald Trump) 대통령을 상대로 로비해 왔다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>How Jensen Huang’s Affair Spiraled Into a National Security Nightmare</small>
+      <small>The Nvidia CEO, who has acknowledged an affair with a woman accused of spying for China, has lobbied President Trump on loosening export controls.</small>
+    </div>
+  </details>
+    <ul class="related-links"><li><a href="https://www.wsj.com/business/the-spy-scandal-that-lays-bare-nvidias-governance-vacuum-44f8c786?mod=mhp" target="_blank" rel="noreferrer">스파이 스캔들, Nvidia의 지배구조 공백을 드러낸다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>A Spy Scandal Lays Bare Nvidia’s Governance Vacuum</small>
+      <small>A false denial, a chairman-less board and no named successor highlight how Nvidia’s board does things CEO Jensen Huang’s way.</small>
+    </div>
+  </details></li><li><a href="https://www.wsj.com/business/a-reined-in-jensen-huang-is-nvidias-best-option-e79cb305?mod=mhp" target="_blank" rel="noreferrer">고삐를 죈 젠슨 황(Jensen Huang)이 Nvidia의 최선의 선택이다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>A Reined In Jensen Huang Is Nvidia’s Best Option</small>
+      <small>A more restrained chief would suit the chip giant well for the next phase of the AI boom.</small>
+    </div>
+  </details></li><li><a href="https://www.wsj.com/finance/investing/the-nvidia-affair-is-terrible-timing-for-corporate-america-aa3166c2?mod=mhp" target="_blank" rel="noreferrer">Nvidia 불륜 사건은 미국 기업계에 최악의 타이밍이다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The Nvidia Affair Is Terrible Timing for Corporate America</small>
+
+    </div>
+  </details></li></ul>
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">03</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">70</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/economy/cpi-inflation-report-october-2026-369f8032?mod=mhp" target="_blank" rel="noreferrer">월간 물가 상승세는 둔화했지만 예상보다 여전히 높다</a></h2>
+    <p>물가는 전월 대비 0.4% 올라 9월의 0.6% 상승보다 둔화했다. 결측 데이터 때문에 연간 수치는 나오지 않았다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Monthly Inflation Cools, but Remains Higher Than Expected</small>
+      <small>Prices rose by 0.4% from the previous month, cooling from the 0.6% increase in September. Annual figures aren’t available because of missing data.</small>
+    </div>
+  </details>
+    <ul class="related-links"><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026?mod=mhp" target="_blank" rel="noreferrer">물가 여전히 높아 국채 수익률 급등, 주가지수 선물 하락</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Yields Jump, Stock Futures Fall as Inflation Remains Elevated</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/-money-quote-forcing-the-fed-s-hand-wwfFXr1L3f8vxwSa2XGM?mod=mhp" target="_blank" rel="noreferrer">💬 핵심 발언: 연준이 움직일 수밖에 없게 만들다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>💬 Money Quote: Forcing the Fed’s Hand</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/nick-timiraos-inflation-report-tests-fed-s-strategy-of-spacing-out-rate-increases-4UpyehsRNhxkrZ02kSId?mod=mhp" target="_blank" rel="noreferrer">닉 티미라오스(Nick Timiraos) | 인플레이션 보고서, 금리 인상 간격을 두는 연준 전략을 시험한다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Nick Timiraos | Inflation Report Tests Fed’s Strategy of Spacing Out Rate Increases</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/traders-dial-up-rate-hike-bets-UHxkB8mixxnMCsJGBcH6?mod=mhp" target="_blank" rel="noreferrer">트레이더들, 금리 인상 베팅을 키운다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Traders Dial Up Rate-Hike Bets</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/goldman-hot-inflation-data-could-mean-more-rate-hikes-next-year-atgzXoDE1HZqJEfWAgrd?mod=mhp" target="_blank" rel="noreferrer">Goldman: 뜨거운 물가 지표는 내년 추가 금리 인상을 뜻할 수 있다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Goldman: Hot Inflation Data Could Mean More Rate Hikes Next Year</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/how-markets-are-reacting-to-inflation-report-in-charts-RfpNj461KA1lEQBO8QOi?mod=mhp" target="_blank" rel="noreferrer">인플레이션 보고서에 대한 시장 반응, 차트로 본다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>How Markets Are Reacting to Inflation Report, in Charts</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/more-inflation-pain-to-come--fWfu110vBShMrk3px4ru?mod=mhp" target="_blank" rel="noreferrer">인플레이션 고통이 더 올까?</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>More Inflation Pain to Come?</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/treasury-yields-jump-after-hot-inflation-data-ujVABnHJ7xnW5rZpTeBy?mod=mhp" target="_blank" rel="noreferrer">뜨거운 물가 지표 이후 미 국채 수익률이 뛴다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Treasury Yields Jump After Hot Inflation Data</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/october-inflation-rose-0-4-on-monthly-basis-pxb8IsuqQT0YpHJ1blfc?mod=mhp" target="_blank" rel="noreferrer">10월 인플레이션, 월간 기준 0.4% 상승</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>October Inflation Rose 0.4% on Monthly Basis</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/u-s-gasoline-prices-dip-below-4-a-gallon-1ELczGWhyPcaFeZtk8hO?mod=mhp" target="_blank" rel="noreferrer">미국 휘발유 가격, 갤런당 4달러 아래로 떨어진다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>U.S. Gasoline Prices Dip Below $4 a Gallon</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/october-s-inflation-report-is-coming-with-a-key-number-awol-4N84kNDGmOqIMuYrCMXy?mod=mhp" target="_blank" rel="noreferrer">10월 인플레이션 보고서 발표 임박… 핵심 수치는 빠졌다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>October’s Inflation Report Is Coming… With a Key Number AWOL</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/here-s-how-inflation-has-changed-since-2015-UhykUFyGGmeGSxznTCJt?mod=mhp" target="_blank" rel="noreferrer">2015년 이후 인플레이션은 어떻게 달라졌나</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Here’s How Inflation Has Changed Since 2015</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/oil-prices-ease-but-analysts-warn-drop-may-be-overdone-HrHRZVQljBhaXlRSnhBC?mod=mhp" target="_blank" rel="noreferrer">유가는 내렸지만 분석가들은 낙폭이 과할 수 있다고 경고한다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Oil Prices Ease, but Analysts Warn Drop May Be Overdone</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/just-in-anthropic-s-targeted-valuation-iaijjBJbhWrTyOU5tsAa?mod=mhp" target="_blank" rel="noreferrer">방금 들어온 소식: Anthropic의 목표 기업가치</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Just in: Anthropic’s Targeted Valuation</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/bettors-assign-low-odds-to-huang-s-removal-as-nvidia-ceo-R1LXP5uNxEYixZ2KTowB?mod=mhp" target="_blank" rel="noreferrer">베팅 참가자들, 젠슨 황(Jensen Huang)의 Nvidia CEO 퇴출 가능성을 낮게 본다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Bettors Assign Low Odds to Huang’s Removal as Nvidia CEO</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/stocks-to-watch-softbank-nvidia-rocket-lab-eHw0kcmPEkygIsePiWKh?mod=mhp" target="_blank" rel="noreferrer">주목할 종목: SoftBank, Nvidia, CoreWeave</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Stocks to Watch: SoftBank, Nvidia, CoreWeave</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/fed-s-waller-leans-toward-december-hike-says-hot-inflation-could-warrant-larger-move-1QNE28MXGgRWdxeig7M3?mod=mhp" target="_blank" rel="noreferrer">연준 월러(Waller), 12월 금리 인상 지지하며 더 큰 폭 인상도 시사한다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Fed’s Waller Backs December Hike, Floats Larger Move</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/nvidia-s-governance-quirk-7DrKnyLDoERXhMN99p5l?mod=mhp" target="_blank" rel="noreferrer">Nvidia 지배구조의 별난 구석</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Nvidia’s Governance Quirk</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-cpi-inflation-11-10-2026/card/inflation-figures-coreweave-earnings-what-to-watch-for-the-rest-of-the-week-qEeuFQEuKz0HU5D6zOmt?mod=mhp" target="_blank" rel="noreferrer">인플레이션 지표와 CoreWeave 실적: 이번 주 남은 기간 주목할 일정</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Inflation Figures, CoreWeave Earnings: What to Watch for the Rest of the Week</small>
+
+    </div>
+  </details></li></ul>
+    <div class="media-frame"><img src="https://images.wsj.net/im-35390738?width=600&amp;height=600&amp;size=1" alt="Consumer-price index, change from a month earlier" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">04</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">794</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/elections/california-wealth-tax-voters-reject-51707619?mod=mhp" target="_blank" rel="noreferrer">California 유권자, 전례 없는 억만장자 과세를 거부한다</a></h2>
+    <p>California의 부유층이 거액을 쏟아부은 끝에 의료 재원 마련을 위한 부유세 시도를 무산시켰다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>California Voters Reject Unprecedented Tax on Billionaires</small>
+      <small>The states’ wealthy elite spent heavily and successfully defeated an effort to tax their wealth to raise healthcare funding.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-01163445?width=600&amp;height=600" alt="California Voters Reject Unprecedented Tax on Billionaires" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">05</span>
+      <span class="section-chip">주요 기사</span>
+      <span class="label">DAMIAN PALETTA | POLITICS NEWSLETTER</span>
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/policy/hegseths-impeachment-gives-wounded-hill-gop-new-power-cd91b513?mod=mhp" target="_blank" rel="noreferrer">헤그세스(Hegseth) 탄핵, 상처 입은 의회 공화당에 새로운 힘을 실어준다</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Hegseth’s Impeachment Gives Wounded Hill GOP New Power</small>
+
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">06</span>
+      <span class="section-chip">주요 기사</span>
+      <span class="label">EXCLUSIVE</span>
+
+
+
+      <span class="comments">187</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/middle-east/u-s-aircraft-evacuated-from-second-u-k-base-due-to-iran-threat-835a8b58?mod=mhp" target="_blank" rel="noreferrer">미군 항공기, 이란 위협에 영국 두 번째 기지에서도 대피한다</a></h2>
+    <p>미국은 영국 왕립공군 기지에 있던 급유기를 독일 등지로 옮겼다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>U.S. Aircraft Evacuated From Second U.K. Base Due to Iran Threat</small>
+      <small>The U.S. moved refueling tankers from a Royal Air Force base in England to Germany and other locations.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-92116129?width=600&amp;height=600" alt="U.S. Aircraft Evacuated From Second U.K. Base Due to Iran Threat" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">07</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">22</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/middle-east/u-s-iran-exchange-strikes-on-islands-as-they-fight-for-control-of-strait-895801e5?mod=mhp" target="_blank" rel="noreferrer">미국과 이란, 해협 통제권을 두고 섬을 서로 공격한다</a></h2>
+    <p>미국과 이란이 호르무즈 해협 통제권을 둘러싸고 치열하게 맞붙고 있으며, 양측은 최근 며칠간 해협 안의 섬들을 타격했다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>U.S., Iran Exchange Strikes on Islands as They Fight for Control of Strait</small>
+      <small>The U.S. and Iran are waging a fierce battle over control of the Strait of Hormuz, with both sides striking islands in the waterway in recent days.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">08</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">571</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/democrats-are-wasting-no-time-investigating-corporate-americas-biggest-names-a582799e?mod=mhp" target="_blank" rel="noreferrer">민주당, 미국 대기업 거물들에 대한 조사를 지체 없이 시작한다</a></h2>
+    <p>화요일 선거의 민주당 압승 이후 의회 지도부가 시한을 정하고 있고, 기업들은 변호사를 구하고 있다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Democrats Are Wasting No Time Investigating Corporate America’s Biggest Names</small>
+      <small>After Tuesday’s blue wave, congressional leaders are setting deadlines, and companies are lawyering up.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">09</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">579</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/us-news/education/the-parents-suing-schools-because-their-kids-got-bad-grades-c6c12415?mod=mhp" target="_blank" rel="noreferrer">성적이 나쁘다고 학교를 고소하는 부모들</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The Parents Suing Schools Because Their Kids Got Bad Grades</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-97825307?width=600&amp;height=600" alt="The Parents Suing Schools Because Their Kids Got Bad Grades" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">10</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">232</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/high-beef-prices-here-to-stay-004f9119?mod=mhp" target="_blank" rel="noreferrer">소고기 값이 계속 비쌀 수밖에 없는 이유</a></h2>
+    <p>줄어드는 미국 소 사육 두수가 육가공업체를 폐업으로 내몰며 공급망에 균열을 내고 있다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Why High Beef Prices Are Here to Stay</small>
+      <small>The shrinking U.S. cattle herd is putting meatpackers out of business, fracturing the supply chain.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">11</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">79</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/the-mystery-behind-a-50-year-old-factory-part-flying-off-the-shelves-087c1660?mod=mhp" target="_blank" rel="noreferrer">50년 된 공장 부품이 갑자기 불티나게 팔리는 미스터리</a></h2>
+    <p>Michigan의 한 업체에 공기 배출구 주문이 예상치 못하게 쏟아졌다. 문제는 누가 사 가는지 전혀 모른다는 점이다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The Mystery Behind a 50-Year-Old Factory Part Flying Off the Shelves</small>
+      <small>A Michigan company was unexpectedly inundated with orders for its air vents. The only problem? It had no idea who was buying them.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-55622088?width=600&amp;height=600" alt="The Mystery Behind a 50-Year-Old Factory Part Flying Off the Shelves" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">12</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">18</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/europe/u-s-overture-to-russia-on-european-security-sparks-alarm-eb9b6acf?mod=mhp" target="_blank" rel="noreferrer">유럽 안보를 둘러싼 미국의 러시아 접근이 경계심을 부른다</a></h2>
+    <p>미국 당국자들은 우크라이나 휴전 작업이 유럽의 향후 안보 체제 논의와 병행돼야 한다고 밝혔다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>U.S. Overture to Russia on European Security Sparks Alarm</small>
+      <small>U.S. officials said work on a Ukraine ceasefire must proceed alongside discussions about Europe’s future security arrangements.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-23602232?width=600&amp;height=600" alt="U.S. Overture to Russia on European Security Sparks Alarm" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">13</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/tech/ai/hackers-hunt-for-ais-most-valuable-commodity-computing-power-4c2054d5?mod=mhp" target="_blank" rel="noreferrer">해커들, AI의 가장 값진 자원인 컴퓨팅 파워를 노린다</a></h2>
+    <p>AI 모델 수요가 급증하면서 AI 계정 인증 정보가 수익성 높은 암시장 화폐이자 사이버 범죄자의 표적이 됐다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Hackers Hunt for AI’s Most Valuable Commodity: Computing Power</small>
+      <small>Demand for artificial-intelligence models has turned AI credentials into a lucrative black-market currency and a target for cybercriminals.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-25154232?width=600&amp;height=600" alt="Hackers Hunt for AI’s Most Valuable Commodity: Computing Power" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">14</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/earnings/softbank-group-posts-quarterly-loss-on-special-losses-linked-to-u-s-data-center-projects-23b37a41?mod=mhp" target="_blank" rel="noreferrer">SoftBank, AI 투자 열기 흔들리는 가운데 70억 달러 손실을 낸다</a></h2>
+    <p>이 회사는 AI 데이터센터용 발전 설비의 가치 하락으로 타격을 입었다. 주가는 6월 고점 대비 절반 넘게 떨어졌다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>SoftBank Posts $7 Billion Loss as AI Trade Falters</small>
+      <small>The company took a hit on the value of power-generating equipment meant for AI data centers. Its stock has more than halved from its June peak.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">15</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/nvidia-gets-a-chinese-honeypot-lesson-25b45560?mod=mhp" target="_blank" rel="noreferrer">Nvidia, 중국의 미인계(honeypot)에서 교훈을 얻는다 — 편집위원회</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Nvidia Gets a Chinese Honeypot Lesson By The Editorial Board</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-43801519/?width=600&amp;size=4&amp;pixel_ratio=3&amp;height=600" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">16</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/chinese-drones-spies-and-honey-pots-0e87b656?mod=mhp" target="_blank" rel="noreferrer">중국의 드론, 스파이, 미인계(honey pots) — 엘리스 스터파닉(Elise Stefanik)</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Chinese Drones, Spies and Honey Pots By Elise Stefanik</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-41031312/?width=600&amp;size=4&amp;pixel_ratio=3&amp;height=600" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">17</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/the-war-and-the-fog-of-trump-ab270d04?mod=mhp" target="_blank" rel="noreferrer">전쟁과 트럼프의 안개 — 윌리엄 맥거언(William McGurn)</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The War and the Fog of Trump By William McGurn</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-56823081" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">18</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/the-hegseth-impeachment-spectacle-c18adfeb?mod=mhp" target="_blank" rel="noreferrer">헤그세스(Hegseth) 탄핵 구경거리 — 편집위원회</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The Hegseth Impeachment Spectacle By The Editorial Board</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-26606574/?width=600&amp;size=4&amp;pixel_ratio=3&amp;height=600" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">19</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/will-trump-surprise-us-and-act-normal-this-time-cd45234c?mod=mhp" target="_blank" rel="noreferrer">도널드 트럼프(Donald Trump)는 이번에는 놀랍게도 평범하게 행동할까? — 제러드 베이커(Gerard Baker)</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Will Trump Surprise Us and Act Normal This Time? By Gerard Baker</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-98820801" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">20</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/even-blue-states-support-female-athletes-071ce76b?mod=mhp" target="_blank" rel="noreferrer">진보 성향 주에서도 여성 선수를 지지한다 — 코리 디안젤리스(Corey DeAngelis)</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Even Blue States Support Female Athletes By Corey DeAngelis</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-74819693/?width=600&amp;size=4&amp;pixel_ratio=3&amp;height=600" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">21</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/podcasts/tech-news-briefing/what-the-jensen-huang-investigation-means-for-nvidia/8F4A9933-39CF-432A-96AC-257AB9A7E69F" target="_blank" rel="noreferrer">젠슨 황(Jensen Huang) 조사가 Nvidia에 뜻하는 것</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>What the Jensen Huang Investigation Means for Nvidia</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-915196?height=600&amp;size=1&amp;pixel_ratio=3&amp;width=600" alt="The Wall Street Journal Tech Talk" /><span>11:20</span></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">22</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+      <span class="comments">23</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/style/fashion/rob-sand-iowa-governor-elect-model-prada-9aeb4740?mod=mhp" target="_blank" rel="noreferrer">Iowa의 차기 주지사, 모델 출신이라는 매우 드문 정치인 명단에 이름을 올린다</a></h2>
+    <p>정치에 입문하기 전 롭 샌드(Rob Sand)는 Italian Vogue 화보를 찍고 Prada 런웨이를 걸었다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Iowa’s Next Governor Joins the Very Short List of Politicians Who Used to Be Models</small>
+      <small>Before he entered politics, Rob Sand posed for Italian Vogue and walked the runway for Prada.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-35583357?width=600&amp;height=600" alt="Iowa’s Next Governor Joins the Very Short List of Politicians Who Used to Be Models" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">23</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+      <span class="label">WSJ. MAGAZINE</span>
+
+
+
+      <span class="comments">15</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/arts-culture/fine-art/ronald-lauder-met-neue-d728606f?mod=mhp" target="_blank" rel="noreferrer">로널드 로더(Ronald Lauder)가 Neue Galerie를 Met과 합치기로 한 속사정</a></h2>
+    <p>베이비붐 세대가 미술 소장품의 미래를 놓고 고민하는 가운데, 이 화장품 재벌은 독일·오스트리아 미술 컬렉션 15억 달러어치를 Met에 기증하는 파격을 택했다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Inside Ronald Lauder’s Decision to Merge His Neue Galerie With the Met</small>
+      <small>As baby boomers grapple with securing the future of their art collections, the cosmetics tycoon gave the Met a seismic gift: his $1.5 billion collection of German and Austrian art.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-11507821?width=600&amp;height=600" alt="Inside Ronald Lauder’s Decision to Merge His Neue Galerie With the Met" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">24</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+      <span class="comments">15</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/sports/basketball/yaxel-lendeborg-warriors-curry-174eda28?mod=mhp" target="_blank" rel="noreferrer">농구를 접고 창고에서 일하던 그가 NBA의 새 스타가 됐다</a></h2>
+    <p>18세의 약셀 렌데보그(Yaxel Lendeborg)는 농구의 꿈을 포기할 준비가 돼 있었다. 6년 뒤 그는 스테픈 커리(Stephen Curry)의 Warriors를 되살려 놓았다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>He Quit Basketball to Work in a Warehouse. Now He’s the NBA’s Newest Star.</small>
+      <small>At 18, Yaxel Lendeborg was ready to give up on his basketball dreams. Six years later, he’s rejuvenated Stephen Curry’s Warriors.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-72935778?width=600&amp;height=600" alt="He Quit Basketball to Work in a Warehouse. Now He’s the NBA’s Newest Star." /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">25</span>
+      <span class="section-chip">Morning Catch-Up</span>
+
+
+
+
+      <span class="comments">134</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/why-steve-scalise-wants-to-lead-battered-house-republicans-14eff1cc?mod=mhp" target="_blank" rel="noreferrer">스티브 스칼리스(Steve Scalise)가 상처 입은 하원 공화당을 이끌려는 이유</a></h2>
+    <p>베테랑 의원은 개과천선한 정치적 투사 짐 조던(Jim Jordan)과 정면으로 맞붙고 있다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Why Steve Scalise Wants to Lead Battered House Republicans</small>
+      <small>The veteran lawmaker is going head-to-head with the reformed political bomb-thrower Jim Jordan.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-10694320?width=600&amp;height=600" alt="Why Steve Scalise Wants to Lead Battered House Republicans" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">26</span>
+      <span class="section-chip">Morning Catch-Up</span>
+
+
+
+
+      <span class="comments">32</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/china/chinas-trade-surplus-surged-past-1-trillion-in-october-967968c9?mod=mhp" target="_blank" rel="noreferrer">중국 무역흑자, 10월 들어 1조 달러 넘어섰다</a></h2>
+    <p>경제 침체 우려와 글로벌 무역 긴장 속에서도 중국 수출은 계속 치솟고 있다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>China’s Trade Surplus Surged Past $1 Trillion in October</small>
+      <small>Chinese exports continue to soar despite economic gloom and global trade tensions.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">27</span>
+      <span class="section-chip">Morning Catch-Up</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/health/pharma/new-type-of-blood-thinner-approved-to-prevent-repeat-strokes-79b4b6b9?mod=mhp" target="_blank" rel="noreferrer">새로운 유형의 항응고제(blood thinner), 뇌졸중 재발 방지용으로 승인됐다</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>New Type of Blood Thinner Approved to Prevent Repeat Strokes</small>
+
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">28</span>
+      <span class="section-chip">Morning Catch-Up</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/health/pharma/u-s-regulators-warn-glp-1-drugs-carry-possible-rare-blindness-risk-c36a4564?mod=mhp" target="_blank" rel="noreferrer">미 규제당국, GLP-1 약물이 희귀 실명 위험을 동반할 수 있다고 경고한다</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>U.S. Regulators Warn GLP-1 Drugs Carry Possible Rare Blindness Risk</small>
+
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">29</span>
+      <span class="section-chip">세계</span>
+      <span class="label">LINGLING WEI | CHINA NEWSLETTER</span>
+
+
+
+      <span class="comments">6</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/china/beijing-sees-a-weakened-trump-it-risks-getting-a-tougher-negotiator-632f0132?mod=mhp" target="_blank" rel="noreferrer">베이징은 약해진 트럼프를 본다. 더 강경한 협상 상대를 맞닥뜨릴 수 있다</a></h2>
+    <p>아울러 Nvidia CEO 젠슨 황(Jensen Huang)이 직원과 가족에게 사과했고, 홍콩 활동가 조슈아 웡(Joshua Wong)은 외세 결탁 혐의로 추가 징역형을 받았다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Beijing Sees a Weakened Trump. It Risks Getting a Tougher Negotiator.</small>
+      <small>Plus, Nvidia CEO Jensen Huang apologizes to employees and family, and Hong Kong activist Joshua Wong gets more prison time, for foreign collusion.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-20331820?width=600&amp;height=600" alt="Beijing Sees a Weakened Trump. It Risks Getting a Tougher Negotiator." /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">30</span>
+      <span class="section-chip">세계</span>
+
+
+
+
+      <span class="comments">143</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/health/pharma/trumps-plan-to-lower-drug-prices-in-u-s-is-leading-to-fewer-new-drugs-in-europe-2b3d8d9d?mod=mhp" target="_blank" rel="noreferrer">미국의 약값 인하 계획이 유럽의 신약 출시 감소로 이어지고 있다</a></h2>
+    <p>분석 결과 도널드 트럼프(Donald Trump) 대통령의 국제 약가 정책이 시작된 이후 유럽에서 출시된 약이 27% 줄었다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Trump’s Plan to Lower Drug Prices in U.S. Is Leading to Fewer New Drugs in Europe</small>
+      <small>An analysis shows that 27% fewer drugs launched in Europe since President Trump’s international drug-pricing policy began.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">31</span>
+      <span class="section-chip">세계</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/europe/polands-political-divisions-puncture-its-influence-on-world-stage-1b17e3f2?mod=mhp" target="_blank" rel="noreferrer">폴란드의 정치적 분열이 세계 무대에서의 영향력을 깎아내린다</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Poland’s Political Divisions Puncture Its Influence on World Stage</small>
+
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">32</span>
+      <span class="section-chip">금융</span>
+
+
+
+
+      <span class="comments">1</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/finance/wall-street-pay-set-to-climb-after-volatile-markets-and-ipos-fuel-bank-profits-94fd9137?mod=mhp" target="_blank" rel="noreferrer">변동성 큰 시장과 IPO가 은행 이익을 끌어올리며 월가 보수가 오를 전망이다</a></h2>
+    <p>트레이더와 투자은행가들이 보너스에서 가장 큰 폭의 인상을 받을 전망이다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Wall Street Pay Set to Climb After Volatile Markets and IPOs Fuel Bank Profits</small>
+      <small>Traders and investment bankers are set to see among the biggest bumps in bonuses.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">33</span>
+      <span class="section-chip">금융</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/finance/stocks/a-new-generation-of-traders-is-trapped-in-asias-market-meltdown-636d5da4?mod=mhp" target="_blank" rel="noreferrer">신세대 트레이더들, 아시아 증시 폭락에 발이 묶였다</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>A New Generation of Traders Is Trapped in Asia’s Market Meltdown</small>
+
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">34</span>
+      <span class="section-chip">Homes</span>
+
+
+
+
+      <span class="comments">25</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/real-estate/how-boise-became-one-of-americas-hottest-rental-markets-a02f50f9?mod=mhp" target="_blank" rel="noreferrer">Boise는 어떻게 미국에서 가장 뜨거운 임대 시장 중 하나가 됐나</a></h2>
+    <p>신규 공급이 줄고 AI 붐이 새 주민을 끌어들이면서 Idaho 주도의 임대료가 올해 8% 올랐다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>How Boise Became One of America’s Hottest Rental Markets</small>
+      <small>Rent prices in the Idaho capital are up 8% this year, as new supply dwindles and the AI boom attracts new residents.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-60574041?width=600&amp;height=600&amp;size=1" alt="Apartment Supply Growth" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">35</span>
+      <span class="section-chip">Homes</span>
+      <span class="label">EXCLUSIVE</span>
+
+
+
+      <span class="comments">12</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/real-estate/luxury-homes/loan-depot-anthony-hsieh-california-home-4dcab804?mod=mhp" target="_blank" rel="noreferrer">LoanDepot 창업자 앤서니 시에(Anthony Hsieh), California 해안 저택을 1억2500만 달러에 내놓는다</a></h2>
+    <p>시에는 2020년 6100만 달러에 Newport Coast 주택을 사들이며 Orange County 가격 기록을 세웠다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>LoanDepot Founder Anthony Hsieh Asks $125 Million for Coastal California Mansion</small>
+      <small>Hsieh set a price record for Orange County when he purchased the Newport Coast home for $61 million in 2020.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-85721616?width=600&amp;height=600" alt="LoanDepot Founder Anthony Hsieh Asks $125 Million for Coastal California Mansion" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">36</span>
+      <span class="section-chip">Homes</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/real-estate/luxury-homes/david-fischer-palm-beach-home-8d4f92f6?mod=mhp" target="_blank" rel="noreferrer">자동차 대리점 거물, Palm Beach 저택 단지를 1억 달러에 가깝게 매각한다</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Car-Dealership Mogul Sells Palm Beach Compound for Nearly $100 Million</small>
+
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">37</span>
+      <span class="section-chip">Sports</span>
+      <span class="label">0:00 Paused 0:00 / 9:16 Tap for Sound</span>
+
+
+      <span class="duration">0:00</span>
+      <span class="comments">91</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/sports/see-what-it-takes-to-turn-a-high-school-athlete-into-a-business-402c30a8?mod=mhp" target="_blank" rel="noreferrer">고교 선수를 사업체로 키우는 데 무엇이 필요한지 들여다본다</a></h2>
+    <p>&#39;이름·이미지·초상(NIL)&#39; 계약을 통한 수익 기회가 더 어린 선수에게까지 번지며 고교 스포츠의 유인 구조도 바꾸고 있다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>See What It Takes to Turn a High-School Athlete Into a Business</small>
+      <small>The moneymaking opportunities of “name, image and likeness” deals are coming for even younger athletes, also transforming the incentives in high-school sports.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">38</span>
+      <span class="section-chip">Sports</span>
+      <span class="label">JASON GAY</span>
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/sports/football/michigan-ohio-state-big-ten-5b4f9730?mod=mhp" target="_blank" rel="noreferrer">Michigan과 Ohio State가 허둥대다 대학 풋볼 시즌을 날리고 있다</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Michigan and Ohio State Are Bumbling Away the College Football Season</small>
+
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">39</span>
+      <span class="section-chip">Sports</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/sports/football/san-francisco-49ers-brock-purdy-3307b0af?mod=mhp" target="_blank" rel="noreferrer">2억6500만 달러 쿼터백이 어쩐 일인지 남는 장사다</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The $265 Million Quarterback Who’s Somehow a Bargain</small>
+
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">40</span>
+      <span class="section-chip">Sports</span>
+
+
+
+
+      <span class="comments">14</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/personal-finance/amex-goes-after-a-sports-mad-crowd-with-fanatics-credit-card-588466a4?mod=mhp" target="_blank" rel="noreferrer">American Express, Fanatics 신용카드로 스포츠에 열광하는 소비자를 공략한다</a></h2>
+    <p>American Express가 Fanatics와 손잡고 이 스포츠 플랫폼의 적립 화폐 FanCash를 쌓을 수 있는 제휴 신용카드를 내놓는다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Amex Goes After a Sports-Mad Crowd With Fanatics Credit Card</small>
+      <small>American Express is partnering with Fanatics to offer a co-branded credit card that lets people earn FanCash, the sports platform’s loyalty currency.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-85278822?width=600&amp;height=600" alt="Amex Goes After a Sports-Mad Crowd With Fanatics Credit Card" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">41</span>
+      <span class="section-chip">Sports</span>
+
+
+
+
+      <span class="comments">241</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/finance/investing/home-vs-stock-market-investment-6783607f?mod=mhp" target="_blank" rel="noreferrer">내 집과 주식시장, 어느 쪽이 더 나은 투자였나</a></h2>
+    <p>연구 결과 지난 40년간 S&amp;P 500의 연평균 수익률은 모든 주와 지역 시장에서 주택 가격 상승률을 웃돌았다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Your House vs. the Stock Market: Which Has Been a Better Investment?</small>
+      <small>The S&amp;P 500’s annualized returns over the past 40 years top housing-price returns in every state and local market, research finds.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">42</span>
+      <span class="section-chip">Culture</span>
+
+
+
+
+      <span class="comments">4</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/arts-culture/david-manheim-dopey-podcast-katzs-9b03cb1f?mod=mhp" target="_blank" rel="noreferrer">Katz&#39;s 웨이터 출신이 약물 중독을 다룬 히트 팟캐스트를 만든 방법</a></h2>
+    <p>데이비드 맨하임(David Manheim)의 Dopey는 꾸밈없는 솔직함과 블랙 유머를 섞어 컬트적 팬층을 쌓고 유명 인사들을 게스트로 끌어들였다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>How a Former Katz’s Waiter Created a Hit Podcast About Drug Addiction</small>
+      <small>David Manheim’s “Dopey” has built a cult following and courted celebrity guests by mixing unvarnished honesty with dark humor.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-92914838?width=600&amp;height=600" alt="How a Former Katz’s Waiter Created a Hit Podcast About Drug Addiction" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">43</span>
+      <span class="section-chip">Culture</span>
+
+
+
+
+      <span class="comments">257</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/arts-culture/film/the-devils-movie-31fa4c79?mod=mhp" target="_blank" rel="noreferrer">모두를 불쾌하게 했던 55년 전 영화가 돌아와 이번에는 히트작이 됐다</a></h2>
+    <p>검열과 비난을 받았던 The Devils의 복원판이 수십 년 만에 극장 매진을 이어가며 Z세대 관객을 사로잡고 있다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>A 55-Year-Old Film That Offended Everyone Is Back—and This Time It’s a Hit</small>
+      <small>Decades after “The Devils” was censored and condemned, a restored cut is selling out theaters and captivating Gen Z moviegoers.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-88245767?width=600&amp;height=600" alt="A 55-Year-Old Film That Offended Everyone Is Back—and This Time It’s a Hit" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">44</span>
+      <span class="section-chip">Culture</span>
+      <span class="label">CULTURAL CONVERSATION</span>
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/arts-culture/film/james-gray-paper-tiger-cinema-of-grit-and-grandeur-6efd776a?mod=mhp" target="_blank" rel="noreferrer">제임스 그레이(James Gray)의 영화, 거친 질감과 웅대함</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>James Gray’s Cinema of Grit and Grandeur</small>
+
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">45</span>
+      <span class="section-chip">Culture</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/arts-culture/food-cooking/foie-gras-ban-washington-dc-denver-1d76dc40?mod=mhp" target="_blank" rel="noreferrer">올 11월 투표용지에 푸아그라가 오른 이유</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Why Foie Gras Was on the Ballot This November</small>
+
+    </div>
+  </details>
+
+
+  </article></li>
+        </ol>
+      </section>
+    </main>
+  </body>
+</html>
