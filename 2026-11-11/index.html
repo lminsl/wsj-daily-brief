@@ -1,0 +1,1329 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/wsj-daily-brief/" />
+    <title>WSJ Korean Morning Brief</title>
+    <link rel="icon" href="/wsj-daily-brief/app-icon.svg" />
+    <link rel="apple-touch-icon" href="/wsj-daily-brief/apple-touch-icon.png" />
+    <style>:root {
+  color: #111;
+  background: #fff;
+  font-family: "Noto Serif KR", "AppleMyungjo", "Nanum Myeongjo", "Source Han Serif K", Georgia, serif;
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+}
+
+a,
+button {
+  color: inherit;
+  font: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0274b6;
+}
+
+button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.wsj-page {
+  width: min(100%, 900px);
+  margin: 0 auto;
+  padding: 0 18px 56px;
+}
+
+.ticker {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  border-bottom: 1px solid #d9d9d9;
+  padding: 7px 0;
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.ticker a {
+  display: inline-flex;
+  gap: 5px;
+  align-items: baseline;
+}
+
+.ticker span {
+  color: #555;
+}
+
+.ticker strong {
+  font-weight: 700;
+}
+
+.ticker em {
+  font-style: normal;
+}
+
+.ticker .up em {
+  color: #17823b;
+}
+
+.ticker .down em {
+  color: #b3261e;
+}
+
+.site-header {
+  border-bottom: 1px solid #111;
+}
+
+.utility-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 24px;
+  min-height: 38px;
+  border-bottom: 1px solid #ececec;
+  color: #333;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.75rem;
+}
+
+.utility-row button {
+  min-height: 32px;
+  padding: 0 8px;
+  font-weight: 700;
+}
+
+.utility-row nav {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  overflow-x: auto;
+}
+
+.masthead {
+  display: block;
+  padding: 22px 0 12px;
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 7vw, 5.6rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.88;
+}
+
+.date-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 0 12px;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+}
+
+.archive-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  overflow-x: auto;
+  border-top: 1px solid #ececec;
+  padding: 8px 0;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.archive-nav a {
+  border: 1px solid #d6d6d6;
+  padding: 4px 8px;
+}
+
+.archive-nav a.active {
+  border-color: #111;
+  color: #111;
+  font-weight: 800;
+}
+
+.section-nav {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  overflow-x: auto;
+  border-top: 1px solid #ececec;
+  padding: 9px 0;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.article-flow {
+  padding-top: 18px;
+}
+
+.flow-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 2px solid #111;
+  padding-bottom: 8px;
+}
+
+.flow-heading h1 {
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.1;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.flow-heading p {
+  margin: 0;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  text-align: right;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.article-list {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.article-list > li {
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.story-item {
+  min-width: 0;
+  padding: 18px 0 20px;
+}
+
+.story-kicker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px 9px;
+  margin-bottom: 8px;
+  color: #555;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+  line-height: 1.25;
+}
+
+.story-number {
+  color: #111;
+  font-weight: 900;
+}
+
+.section-chip {
+  border-left: 1px solid #c9c9c9;
+  padding-left: 9px;
+  font-weight: 700;
+}
+
+.label {
+  color: #b3261e;
+  font-weight: 900;
+}
+
+.comments {
+  color: #666;
+}
+
+.duration {
+  color: #666;
+  font-weight: 700;
+}
+
+.comments::before {
+  content: "댓글 ";
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h2 {
+  max-width: 760px;
+  font-family: "Noto Serif KR", "AppleMyungjo", "Nanum Myeongjo", Georgia, serif;
+  font-size: clamp(1.38rem, 3.2vw, 2.12rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.16;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+p {
+  max-width: 720px;
+  margin-top: 8px;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.48;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.media-frame {
+  position: relative;
+  max-width: 660px;
+  margin-top: 13px;
+  background: #f2f2f2;
+}
+
+.media-frame img {
+  aspect-ratio: 16 / 9;
+}
+
+.media-frame span {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  min-width: 42px;
+  padding: 3px 6px;
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.english-block {
+  max-width: 720px;
+  margin-top: 9px;
+}
+
+.related-links {
+  display: grid;
+  gap: 8px;
+  max-width: 720px;
+  margin: 12px 0 0;
+  border-top: 1px solid #d6d6d6;
+  padding: 11px 0 0 18px;
+}
+
+.related-links li {
+  padding-left: 2px;
+  color: #111;
+}
+
+.related-links a {
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.25;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+.related-links small {
+  margin-top: 3px;
+}
+
+small {
+  display: block;
+  color: #666;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.36;
+  overflow-wrap: anywhere;
+}
+
+small + small {
+  margin-top: 5px;
+}
+
+@media (max-width: 720px) {
+  .wsj-page {
+    padding-inline: 13px;
+  }
+
+  .utility-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 6px 0;
+  }
+
+  .utility-row nav {
+    justify-content: flex-start;
+  }
+
+  .masthead {
+    padding-top: 14px;
+    font-size: clamp(2.15rem, 12vw, 3.35rem);
+  }
+
+  .date-row {
+    display: grid;
+  }
+
+  .section-nav {
+    justify-content: flex-start;
+    gap: 18px;
+  }
+
+  .archive-nav {
+    justify-content: flex-start;
+  }
+
+  .flow-heading {
+    display: grid;
+    gap: 4px;
+  }
+
+  .flow-heading p {
+    text-align: left;
+  }
+
+  .story-item {
+    padding: 16px 0 18px;
+  }
+
+  h2 {
+    font-size: 1.38rem;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.96rem;
+  }
+}
+</style>
+  </head>
+  <body>
+    <main class="wsj-page">
+      <section class="ticker" aria-label="Market snapshot"></section>
+      <header class="site-header">
+        <div class="utility-row">
+          <button type="button">영문판(English)</button>
+          <nav aria-label="Tools">
+            <a>지면판(Print)</a>
+            <a>동영상(Video)</a>
+            <a>음성(Audio)</a>
+            <a>속보</a>
+            <a>퍼즐</a>
+          </nav>
+        </div>
+        <a class="masthead" href="https://www.wsj.com/" target="_blank" rel="noreferrer">The Wall Street Journal</a>
+        <div class="date-row">
+          <span>Wednesday, November 11, 2026</span>
+          <span>WSJ.com 첫 화면 순서를 한국어로 옮김</span>
+        </div>
+        <nav class="archive-nav" aria-label="Saved editions">
+    <a class="active" href="/">최신판</a>
+    <a class="active" href="/2026-11-11">2026-11-11</a><a class="" href="/2026-11-10">2026-11-10</a><a class="" href="/2026-11-07">2026-11-07</a><a class="" href="/2026-11-06">2026-11-06</a><a class="" href="/2026-10-22">2026-10-22</a><a class="" href="/2026-10-21">2026-10-21</a><a class="" href="/2026-10-20">2026-10-20</a><a class="" href="/2026-10-16">2026-10-16</a><a class="" href="/2026-10-15">2026-10-15</a><a class="" href="/2026-10-14">2026-10-14</a><a class="" href="/2026-10-13">2026-10-13</a><a class="" href="/2026-10-12">2026-10-12</a><a class="" href="/2026-10-11">2026-10-11</a><a class="" href="/2026-10-08">2026-10-08</a><a class="" href="/2026-10-07">2026-10-07</a><a class="" href="/2026-10-06">2026-10-06</a><a class="" href="/2026-10-05">2026-10-05</a><a class="" href="/2026-10-04">2026-10-04</a><a class="" href="/2026-10-03">2026-10-03</a><a class="" href="/2026-10-02">2026-10-02</a><a class="" href="/2026-10-01">2026-10-01</a><a class="" href="/2026-09-30">2026-09-30</a><a class="" href="/2026-09-29">2026-09-29</a><a class="" href="/2026-09-28">2026-09-28</a><a class="" href="/2026-09-27">2026-09-27</a><a class="" href="/2026-09-25">2026-09-25</a><a class="" href="/2026-09-24">2026-09-24</a><a class="" href="/2026-09-23">2026-09-23</a><a class="" href="/2026-09-21">2026-09-21</a><a class="" href="/2026-09-20">2026-09-20</a><a class="" href="/2026-09-16">2026-09-16</a><a class="" href="/2026-09-12">2026-09-12</a><a class="" href="/2026-09-11">2026-09-11</a><a class="" href="/2026-09-10">2026-09-10</a><a class="" href="/2026-09-09">2026-09-09</a><a class="" href="/2026-09-08">2026-09-08</a><a class="" href="/2026-09-07">2026-09-07</a><a class="" href="/2026-09-06">2026-09-06</a><a class="" href="/2026-09-05">2026-09-05</a><a class="" href="/2026-09-04">2026-09-04</a><a class="" href="/2026-09-03">2026-09-03</a><a class="" href="/2026-09-02">2026-09-02</a><a class="" href="/2026-09-01">2026-09-01</a><a class="" href="/2026-08-31">2026-08-31</a><a class="" href="/2026-08-30">2026-08-30</a><a class="" href="/2026-08-29">2026-08-29</a><a class="" href="/2026-08-28">2026-08-28</a><a class="" href="/2026-08-27">2026-08-27</a><a class="" href="/2026-08-26">2026-08-26</a><a class="" href="/2026-08-25">2026-08-25</a><a class="" href="/2026-08-24">2026-08-24</a><a class="" href="/2026-08-23">2026-08-23</a><a class="" href="/2026-08-22">2026-08-22</a><a class="" href="/2026-08-20">2026-08-20</a><a class="" href="/2026-08-19">2026-08-19</a><a class="" href="/2026-08-18">2026-08-18</a><a class="" href="/2026-08-17">2026-08-17</a><a class="" href="/2026-08-16">2026-08-16</a><a class="" href="/2026-08-15">2026-08-15</a><a class="" href="/2026-08-14">2026-08-14</a><a class="" href="/2026-08-13">2026-08-13</a><a class="" href="/2026-08-12">2026-08-12</a><a class="" href="/2026-08-11">2026-08-11</a><a class="" href="/2026-08-10">2026-08-10</a><a class="" href="/2026-08-09">2026-08-09</a><a class="" href="/2026-08-08">2026-08-08</a><a class="" href="/2026-08-07">2026-08-07</a><a class="" href="/2026-08-06">2026-08-06</a><a class="" href="/2026-08-05">2026-08-05</a>
+  </nav>
+        <nav class="section-nav" aria-label="WSJ sections">
+          <a>세계</a><a>미국</a><a>기업</a><a>시장</a><a>기술</a><a>오피니언</a><a>문화</a><a>부동산</a><a>스포츠</a>
+        </nav>
+      </header>
+      <section class="article-flow" aria-labelledby="article-flow-title">
+        <div class="flow-heading">
+          <h1 id="article-flow-title">전체 기사</h1>
+          <p>WSJ.com 첫 화면 순서 그대로</p>
+        </div>
+        <ol class="article-list">
+          <li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">01</span>
+      <span class="section-chip">주요 기사</span>
+      <span class="label">EXCLUSIVE</span>
+
+
+
+      <span class="comments">147</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/earnings/openai-continues-to-suffer-heavy-losses-as-revenue-rises-to-10-billion-d2a96bbb?mod=mhp" target="_blank" rel="noreferrer">OpenAI, 매출 100억 달러로 늘었지만 대규모 적자 지속한다</a></h2>
+    <p>조정 영업이익률은 개선됐지만 흑자 전환까지는 여전히 갈 길이 멀다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>OpenAI Continues to Suffer Heavy Losses as Revenue Rises to $10 Billion</small>
+      <small>The company improved its adjusted operating margin but remains far off from profitability.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">02</span>
+      <span class="section-chip">주요 기사</span>
+      <span class="label">Hegseth Impeachment Effort Blocked in House Vote Embed code copied to clipboard COPY LINK COPY EMBED FACEBOOK X 0:00 Playing 0:00 / 0:47 Tap for Sound</span>
+
+
+
+      <span class="comments">1,027</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/hegseth-survives-impeachment-effort-in-house-7933bc38?mod=mhp" target="_blank" rel="noreferrer">헤그세스(Hegseth) 하원 탄핵 추진, 공화당 저지로 무산됐다</a></h2>
+    <p>공화당 지도부가 탄핵 추진을 막았다. 하원 민주당은 내년 1월 의회 주도권을 잡으면 탄핵을 다시 추진할 것으로 예상된다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Hegseth Survives Impeachment Effort in House</small>
+      <small>GOP leaders blocked the move. House Democrats are expected to revive the effort when they take control of Congress in January.</small>
+    </div>
+  </details>
+    <ul class="related-links"><li><a href="https://www.wsj.com/politics/national-security/five-takeaways-from-hegseths-first-pentagon-press-conference-in-months-78869363?mod=mhp" target="_blank" rel="noreferrer">헤그세스(Hegseth)가 수개월 만에 연 국방부 기자회견의 다섯 가지 핵심 내용</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Five Takeaways From Hegseth’s First Pentagon Press Conference in Months</small>
+
+    </div>
+  </details></li></ul>
+    <div class="media-frame"><img src="https://video-api.wsj.com/api-video/player/v3/static/99ee5505e35396ed97c8.svg" alt="Checkbox" /><span>0:00</span></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">03</span>
+      <span class="section-chip">주요 기사</span>
+      <span class="label">LIVE</span>
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-11-11-2026?mod=mhp" target="_blank" rel="noreferrer">기술주 상승 출발 전망</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Tech Stocks Poised to Rise</small>
+
+    </div>
+  </details>
+    <ul class="related-links"><li><a href="https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-11-11-2026/card/stocks-to-watch-coreweave-nvidia-tsmc-EbakJv4ZyAl7obXOSamP?mod=mhp" target="_blank" rel="noreferrer">주목할 종목: CoreWeave, Nvidia, TSMC</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Stocks to Watch: CoreWeave, Nvidia, TSMC</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-11-11-2026/card/alibaba-to-list-its-chip-business-Bffl7yjUscg6OvqpUWuu?mod=mhp" target="_blank" rel="noreferrer">Alibaba, 반도체 사업 상장 추진한다</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Alibaba to List Its Chip Business</small>
+
+    </div>
+  </details></li><li><a href="https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-11-11-2026/card/fed-speakers-tech-earnings-what-to-watch-the-rest-of-the-week-WaB8D0PPNx39Eqlk6Xlg?mod=mhp" target="_blank" rel="noreferrer">연준 인사 발언과 기술기업 실적: 이번 주 남은 일정의 관전 포인트</a><details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Fed Speakers, Tech Earnings: What to Watch the Rest of the Week</small>
+
+    </div>
+  </details></li></ul>
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">04</span>
+      <span class="section-chip">주요 기사</span>
+      <span class="label">HEARD ON THE STREET</span>
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/energy-oil/coreweave-finds-a-workaround-to-capital-constraintsfor-now-1f548211?mod=mhp" target="_blank" rel="noreferrer">CoreWeave, 당장의 자금 조달 제약을 피할 방안 찾았다</a></h2>
+    <p>회사의 야심 찬 계획에는 여전히 자본시장의 협조가 필요하다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>CoreWeave Finds a Workaround to Capital Constraints—for Now</small>
+      <small>The company’s ambitious plans will still require cooperation from capital markets.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">05</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">55</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/policy/jensen-huang-affair-revives-push-for-chip-restrictions-on-capitol-hill-b0500089?mod=mhp" target="_blank" rel="noreferrer">젠슨 황(Jensen Huang) 관련 파문(Affair)에 의회 반도체 규제 강화 움직임 다시 힘받는다</a></h2>
+    <p>의원들은 대규모 국방 지출 법안에 더 엄격한 수출 통제를 포함하라고 요구하고 있다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Jensen Huang Affair Revives Push for Chip Restrictions on Capitol Hill</small>
+      <small>Lawmakers are demanding tighter export controls as part of a big defense spending package.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-79440375?width=600&amp;height=600" alt="Jensen Huang Affair Revives Push for Chip Restrictions on Capitol Hill" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">06</span>
+      <span class="section-chip">주요 기사</span>
+      <span class="label">TIM HIGGINS</span>
+
+
+
+      <span class="comments">11</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/tech/ai/jensen-huang-nvidia-ceo-ai-bubble-93097556?mod=mhp" target="_blank" rel="noreferrer">Nvidia 스캔들, 세계 AI 호황이 버틸 수 있을지 시험대에 올렸다</a></h2>
+    <p>젠슨 황(Jensen Huang)은 ‘차세대 산업혁명’을 가장 적극적으로 옹호하는 인물이다. 그 없이도 이 흐름이 이어질 수 있을까?</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Nvidia Scandal Tests the Resilience of the Global AI Boom</small>
+      <small>Jensen Huang is the biggest cheerleader of the ‘next industrial revolution.’ Could it carry on without him?</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">07</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">314</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/furniture-maker-us-tariffs-jobs-vietnam-345d77fe?mod=mhp" target="_blank" rel="noreferrer">일자리를 미국으로 되돌리려던 가구 제조업체의 시도는 실패했다</a></h2>
+    <p>크린스키(Krinsky) 가족은 변화하는 미국 무역정책에 선제 대응하려고 생산을 베트남에서 미국으로 옮겼지만 수지가 맞지 않았다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>An American Furniture Maker Tried to Bring Jobs Back Home. It Didn’t Work.</small>
+      <small>The Krinskys tried to stay ahead of changing U.S. trade policies by moving manufacturing back from Vietnam, but the numbers didn’t pencil out.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">08</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">172</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/energy-oil/trumps-plan-to-import-russian-diesel-stalls-on-the-high-seas-a5b26b66?mod=mhp" target="_blank" rel="noreferrer">트럼프(Trump)의 러시아산 경유 수입 계획, 공해상에서 멈춰 서다</a></h2>
+    <p>미국으로 향하던 유조선 여러 척이 화물을 인수할 구매자를 찾는 데 어려움을 겪자 항로를 바꿨다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Trump’s Plan to Import Russian Diesel Stalls on the High Seas</small>
+      <small>Several fuel tankers bound for the U.S. shifted course following difficulties finding buyers willing to accept the cargoes.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">09</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">198</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/progressives-lose-california-wealth-tax-battlebut-arent-conceding-the-war-e5d01fbc?mod=mhp" target="_blank" rel="noreferrer">진보 진영, California 부유세 도입에 패했지만 싸움은 계속한다</a></h2>
+    <p>반대 진영은 주민발의안 40 저지에 승리했다고 선언했지만, 진보 진영은 전국적인 흐름이 여전히 자신들에게 유리하다고 주장한다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Progressives Lose California Wealth Tax Battle—but Aren’t Conceding the War</small>
+      <small>Opponents declare victory over Proposition 40, yet progressives argue that national momentum remains on their side.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-97146618?width=600&amp;height=600" alt="Progressives Lose California Wealth Tax Battle—but Aren’t Conceding the War" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">10</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">131</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/us-news/the-26-million-cyberheist-rocking-a-small-new-jersey-town-bbe2ae6d?mod=mhp" target="_blank" rel="noreferrer">New Jersey 소도시를 뒤흔든 2600만 달러 사이버 절도</a></h2>
+    <p>역사 깊은 Cranbury에서 주민들이 선거가 끝난 뒤에야 공개된 자금 실종 문제를 놓고 지역 지도부를 추궁하고 있다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The $26 Million Cyber Heist Rocking a Small New Jersey Town</small>
+      <small>In historic Cranbury, residents are confronting local leaders over missing money that wasn’t disclosed until after the election.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-06397888?width=600&amp;height=600" alt="The $26 Million Cyber Heist Rocking a Small New Jersey Town" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">11</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">35</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/economy/central-banking/fed-forced-to-confront-case-for-bigger-and-faster-rate-rises-ac181706?mod=mhp" target="_blank" rel="noreferrer">연준, 금리 인상 폭과 속도를 높여야 한다는 요구에 직면했다</a></h2>
+    <p>기조적 물가 상승 압력이 3개월 연속 강하게 나타나면서 중앙은행이 금리를 얼마나 많이, 얼마나 빠르게 올려야 하는지가 다시 쟁점이 됐다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Fed Forced to Confront Case for Bigger and Faster Rate Rises</small>
+      <small>A third straight month of firm underlying inflation reopens the question of how far and how fast the central bank must go.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">12</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">23</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/energy-oil/masayoshi-sons-huge-bet-on-electrical-turbines-backfires-b51f160c?mod=mhp" target="_blank" rel="noreferrer">손정의(Masayoshi Son)의 발전용 터빈 대규모 베팅, 손실로 돌아왔다</a></h2>
+    <p>SoftBank는 Hoover Dam 여섯 개에 해당하는 전력을 생산할 만큼의 가스터빈을 예약했다. 이로 인해 수십억 달러의 손실을 입었다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Masayoshi Son’s Huge Bet on Electrical Turbines Backfires</small>
+      <small>SoftBank reserved enough gas turbines to generate the power of six Hoover Dams. It cost the company billions of dollars in losses.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">13</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">514</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/world/europe/member-us-army-arrested-spy-russia-cce59efb?mod=mhp" target="_blank" rel="noreferrer">미군 선임 군인(Senior U.S. Soldier), 러시아를 위한 간첩 활동 혐의로 영국에서 체포됐다</a></h2>
+    <p>41세인 이 남성은 영국의 NATO 신속대응 지휘조직에 배치돼 있었다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Senior U.S. Soldier Is Arrested in U.K. Over Allegations of Spying for Russia</small>
+      <small>The 41-year-old man was assigned to a NATO rapid reaction command structure in the U.K.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">14</span>
+      <span class="section-chip">주요 기사</span>
+
+
+
+
+      <span class="comments">16</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/health/wellness/how-one-man-escaped-from-an-over-the-counter-opioid-trap-87a5b984?mod=mhp" target="_blank" rel="noreferrer">한 남성은 어떻게 처방전 없이 산 오피오이드의 덫에서 벗어났나</a></h2>
+    <p>연방 규제당국이 7-OH 제품 제한을 추진하는 가운데, 의사들은 오피오이드 중독 치료제가 이 강력한 크라톰 유도체에 의존하는 사람들에게 도움이 될 수 있다고 말한다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>How One Man Escaped From an Over-the-Counter Opioid Trap</small>
+      <small>As federal regulators move to restrict 7-OH products, doctors say medications used to treat opioid addiction can help people dependent on the potent kratom derivative.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-50376247?width=600&amp;height=600" alt="How One Man Escaped From an Over-the-Counter Opioid Trap" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">15</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/both-parties-were-wrong-on-gerrymanders-14144e1b?mod=mhp" target="_blank" rel="noreferrer">양당 모두 게리맨더링에 관해 틀렸다 — 편집위원회</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Both Parties Were Wrong on Gerrymanders By The Editorial Board</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-11500292/?width=600&amp;size=4&amp;pixel_ratio=3&amp;height=600" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">16</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/president-trump-is-ready-for-cyberattacks-57fd9c45?mod=mhp" target="_blank" rel="noreferrer">스콧 베선트(Scott Bessent): 최선의 사이버 방어는 미국의 SI다 — 스콧 베선트(Scott Bessent)</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Scott Bessent: Our Best Cyber Defense Is American SI By Scott Bessent</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-99873702/?width=600&amp;size=4&amp;pixel_ratio=3&amp;height=600" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">17</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/chinas-jensen-huang-caper-025c3326?mod=mhp" target="_blank" rel="noreferrer">중국의 젠슨 황(Jensen Huang) 관련 사건(Caper) — 홀먼 W. 젠킨스 주니어(Holman W. Jenkins, Jr.)</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>China’s Jensen Huang Caper By Holman W. Jenkins, Jr.</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-80123290" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">18</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/u-k-mildenhall-air-base-u-s-iran-threat-9140d544?mod=mhp" target="_blank" rel="noreferrer">이란은 전쟁이 끝났다고 생각하지 않는다 — 편집위원회</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Iran Doesn’t Think the War Is Over By The Editorial Board</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-26503272/?width=600&amp;size=4&amp;pixel_ratio=3&amp;height=600" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">19</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/if-you-think-war-is-unpopular-wait-till-you-see-defeat-04608ab0?mod=mhp" target="_blank" rel="noreferrer">전쟁이 여론의 지지를 못 받는다고 생각하나? 패배하면 반감은 더 커진다 — 팀 시히(Tim Sheehy)</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>If You Think War Is Unpopular, Wait Till You See Defeat By Tim Sheehy</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-04270804/?width=600&amp;size=4&amp;pixel_ratio=3&amp;height=600" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">20</span>
+      <span class="section-chip">오피니언(Opinion)</span>
+
+
+      <span class="label">오피니언(Opinion)</span>
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/opinion/california-wealth-tax-prop-40-loses-f9608e78?mod=mhp" target="_blank" rel="noreferrer">California 부유세가 무산되다 — 편집위원회</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The California Wealth Tax Goes Down By The Editorial Board</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-65901138/?width=600&amp;size=4&amp;pixel_ratio=3&amp;height=600" alt="" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">21</span>
+      <span class="section-chip">Features</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/podcasts/the-journal/how-nvidia-ceos-affair-became-a-national-security-nightmare/F8EA4708-23E0-44B1-8104-7825D743BEC8" target="_blank" rel="noreferrer">Nvidia CEO의 불륜은 어떻게 국가안보 악몽이 됐나</a></h2>
+
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>How Nvidia CEO’s Affair Became a National Security Nightmare</small>
+
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-50289036?height=600&amp;size=1&amp;pixel_ratio=3&amp;width=600" alt="The Journal" /><span>18:05</span></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">22</span>
+      <span class="section-chip">Features</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/arts-culture/music/the-british-executive-who-saves-forgotten-songs-from-extinction-20c92d4b?mod=mhp" target="_blank" rel="noreferrer">잊힌 노래가 사라지지 않도록 구하는 영국의 한 경영자</a></h2>
+    <p>스팅(Sting), 니콜 셰르징거(Nicole Scherzinger), ’N Sync, Spice Girls의 공통점은 무엇일까? 이들의 덜 알려진 곡을 온라인에 올리는 데 힘을 보탠 팝 음악 팬 롭 존슨(Rob Johnson)이다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The British Executive Who Saves Forgotten Songs From Extinction</small>
+      <small>What do Sting, Nicole Scherzinger, ’N Sync and the Spice Girls have in common? Rob Johnson, the pop music fan who’s helped bring some of their more obscure tracks online.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-38633350?width=600&amp;height=600" alt="The British Executive Who Saves Forgotten Songs From Extinction" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">23</span>
+      <span class="section-chip">Features</span>
+      <span class="label">HOUSE CALL</span>
+
+
+
+      <span class="comments">55</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/real-estate/johnny-depp-ebenezer-90190edd?mod=mhp" target="_blank" rel="noreferrer">조니 뎁(Johnny Depp), 생활비를 벌려고 연기를 시작했다</a></h2>
+    <p>Ebenezer의 주연 배우가 어머니의 매정한 성격, 어린 시절 40차례의 이사, 니컬러스 케이지(Nicolas Cage)의 영향에 관해 이야기한다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Johnny Depp’s Acting Career Started as a Way to Help Pay the Bills</small>
+      <small>The “Ebenezer” star on his mother’s mean streak, moving 40 times as a kid and Nicolas Cage’s influence.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-12689794?width=600&amp;height=600" alt="Johnny Depp’s Acting Career Started as a Way to Help Pay the Bills" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">24</span>
+      <span class="section-chip">Features</span>
+
+
+
+
+      <span class="comments">346</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/the-mystery-behind-a-50-year-old-factory-part-flying-off-the-shelves-087c1660?mod=mhp" target="_blank" rel="noreferrer">50년 된 공장 부품이 불티나게 팔리는 이유는 무엇일까</a></h2>
+    <p>Michigan의 한 업체에 환기구 주문이 갑자기 쏟아졌다. 문제는 누가 사 가는지 전혀 모른다는 점이었다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The Mystery Behind a 50-Year-Old Factory Part Flying Off the Shelves</small>
+      <small>A Michigan company was unexpectedly inundated with orders for its air vents. The only problem? It had no idea who was buying them.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-55622088?width=600&amp;height=600" alt="The Mystery Behind a 50-Year-Old Factory Part Flying Off the Shelves" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">25</span>
+      <span class="section-chip">Morning Catch-Up</span>
+
+
+
+
+      <span class="comments">105</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/finance/anthropic-founders-stakes-are-worth-18-billion-apiece-at-ipo-price-2c746365?mod=mhp" target="_blank" rel="noreferrer">Anthropic 창업자들의 지분 가치, IPO 가격 기준 1인당 180억 달러</a></h2>
+    <p>내부자 7명은 각각 약 2억5000만 달러어치의 주식을 매각하면서도 의결권을 통한 완전한 지배력은 유지할 예정이다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Anthropic Founders’ Stakes Are Worth $18 Billion Apiece at IPO Price</small>
+      <small>The seven insiders are each set to sell around $250 million worth of shares and keep total voting control.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-68796897?width=600&amp;height=600" alt="Anthropic Founders’ Stakes Are Worth $18 Billion Apiece at IPO Price" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">26</span>
+      <span class="section-chip">Morning Catch-Up</span>
+
+
+
+
+      <span class="comments">63</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/politics/policy/kennedy-family-joins-effort-to-block-construction-of-trumps-arch-a38b701f?mod=mhp" target="_blank" rel="noreferrer">케네디(Kennedy) 가문, 트럼프(Trump) 개선문 건설 저지에 동참하다</a></h2>
+    <p>법원 제출 문서는 이 사업이 케네디(Kennedy) 가문과 미군 장병들의 묘지 위에 ‘영구적으로 그림자를 드리울 것’이라고 주장했다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Kennedy Family Joins Effort to Block Construction of Trump’s Arch</small>
+      <small>The project would “permanently cast shadows” over the graves of Kennedy family members and American servicemembers, a court filing said.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-68160763?width=600&amp;height=600" alt="Kennedy Family Joins Effort to Block Construction of Trump’s Arch" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">27</span>
+      <span class="section-chip">Morning Catch-Up</span>
+
+
+
+
+      <span class="comments">91</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/real-estate/can-hotels-libraries-and-apartment-towers-absorb-americas-timber-glut-88076332?mod=mhp" target="_blank" rel="noreferrer">호텔·도서관·고층 아파트가 미국의 남아도는 목재를 흡수할 수 있을까</a></h2>
+    <p>건축가와 개발업체들이 대형 건물의 철강·콘크리트 같은 전통적 구조재를 대신할 재료로 대형 공학목재(mass timber)에 눈을 돌리고 있다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Can Hotels, Libraries and Apartment Towers Absorb America’s Timber Glut?</small>
+      <small>Architects and developers are turning to mass timber as an alternative to traditional structural materials such as steel and concrete for large buildings.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-57582566?width=600&amp;height=600" alt="Can Hotels, Libraries and Apartment Towers Absorb America’s Timber Glut?" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">28</span>
+      <span class="section-chip">Morning Catch-Up</span>
+
+
+
+
+      <span class="comments">227</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/autos/toyotas-scion-brand-returns-with-japans-forbidden-fruit-minitrucks-4e66ea8c?mod=mhp" target="_blank" rel="noreferrer">Toyota의 Scion이 미국에서 만나기 어려웠던 일본 경트럭과 함께 돌아온다</a></h2>
+    <p>Scion의 KEI-01은 세계 최대 자동차 업체가 기존과 다른 유형의 차량에 도전하는 실험의 일환이다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Toyota’s Scion Brand Returns With Japan’s Forbidden-Fruit Minitrucks</small>
+      <small>Scion’s KEI-01 is part of an experimental bet on nontraditional vehicles from the world’s largest automaker.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-63268867?width=600&amp;height=600" alt="Toyota’s Scion Brand Returns With Japan’s Forbidden-Fruit Minitrucks" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">29</span>
+      <span class="section-chip">Sports</span>
+
+
+
+
+      <span class="comments">67</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/sports/basketball/yaxel-lendeborg-warriors-curry-174eda28?mod=mhp" target="_blank" rel="noreferrer">창고에서 일하려고 농구를 그만뒀던 그가 이제 NBA의 새 스타가 됐다</a></h2>
+    <p>18세의 약셀 렌더보그(Yaxel Lendeborg)는 농구의 꿈을 포기하려 했다. 6년 뒤 그는 스테픈 커리(Stephen Curry)의 Warriors에 새 활력을 불어넣었다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>He Quit Basketball to Work in a Warehouse. Now He’s the NBA’s Newest Star.</small>
+      <small>At 18, Yaxel Lendeborg was ready to give up on his basketball dreams. Six years later, he’s rejuvenated Stephen Curry’s Warriors.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-72935778?width=600&amp;height=600" alt="He Quit Basketball to Work in a Warehouse. Now He’s the NBA’s Newest Star." /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">30</span>
+      <span class="section-chip">Sports</span>
+
+
+
+
+      <span class="comments">39</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/sports/football/nfl-trade-deadline-jaguars-jordan-davis-13b1e8f4?mod=mhp" target="_blank" rel="noreferrer">팀의 미래를 또 담보로 잡힌 NFL의 과감한 협상가</a></h2>
+    <p>Jacksonville Jaguars 단장 제임스 글래드스턴(James Gladstone)은 잇따른 거래로 많은 드래프트 지명권을 내주고, 구단의 첫 Super Bowl 우승에 기여할 것으로 기대하는 선수들을 영입했다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The Hotshot NFL Dealmaker Who Just Mortgaged His Team’s Future—Again</small>
+      <small>In a flurry of deals, Jacksonville Jaguars general manager James Gladstone traded away a trove of picks to acquire players he hopes will help the franchise win its first Super Bowl.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-29162032?width=600&amp;height=600" alt="The Hotshot NFL Dealmaker Who Just Mortgaged His Team’s Future—Again" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">31</span>
+      <span class="section-chip">Homes</span>
+      <span class="label">EXCLUSIVE</span>
+
+
+
+      <span class="comments">15</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/real-estate/luxury-homes/bella-hadid-crested-butte-home-228f9312?mod=mhp" target="_blank" rel="noreferrer">벨라 하디드(Bella Hadid), Colorado의 유서 깊은 산악 주택을 550만 달러에 매입하다</a></h2>
+    <p>Crested Butte에 있는 약 2000제곱피트 규모의 이 집은 1900년대 무렵 탄광 노동자들이 쓰던 오두막 두 채를 중심으로 지어졌다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Bella Hadid Buys Historic Colorado Mountain Home for $5.5 Million</small>
+      <small>The roughly 2,000-square-foot house in Crested Butte was built around two circa-1900s coal-miner’s sheds.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-24890999?width=600&amp;height=600" alt="Bella Hadid Buys Historic Colorado Mountain Home for $5.5 Million" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">32</span>
+      <span class="section-chip">Homes</span>
+
+
+
+
+
+    </div>
+
+    <h2><a href="https://www.wsj.com/real-estate/luxury-homes/kid-friendly-home-amenities-a14551e8?mod=mhp" target="_blank" rel="noreferrer">자녀를 집에 붙잡아 두려고 볼링장과 웰니스 스파를 짓는 부모들</a></h2>
+    <p>부유한 집주인들이 다 큰 자녀를 위해 값비싼 시설에 수백만 달러를 쏟아붓고 있다. 하지만 오락실과 피클볼 코트도 늘 자녀를 집에 머물게 하지는 못한다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>The Parents Building Bowling Alleys and Wellness Spas to Keep Their Kids Home</small>
+      <small>Wealthy homeowners are pouring millions into pricey perks for their older children, but even arcades and pickleball courts don’t always keep them around.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">33</span>
+      <span class="section-chip">Homes</span>
+      <span class="label">EXCLUSIVE</span>
+
+
+
+      <span class="comments">4</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/real-estate/luxury-homes/james-packer-aspen-home-75733266?mod=mhp" target="_blank" rel="noreferrer">호주 억만장자 제임스 패커(James Packer), Aspen 저택을 4268만 달러에 매각하다</a></h2>
+    <p>Colorado의 고급 스키 휴양지에서 최고급 부동산 시장이 둔화하는 가운데 거래가 이뤄졌다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Australian Billionaire James Packer Sells Aspen Mansion for $42.68 Million</small>
+      <small>The sale comes amid a slowdown in the tony Colorado ski destination’s high-end market.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">34</span>
+      <span class="section-chip">Personal Finance</span>
+
+
+
+
+      <span class="comments">7</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/finance/investing/im-always-wrong-about-gold-you-probably-are-too-2c6ac551?mod=mhp" target="_blank" rel="noreferrer">나는 금에 관해 늘 틀린다. 당신도 그럴 가능성이 크다</a></h2>
+    <p>금 강세론자들은 자신들이 가장 좋아하는 금속이 인플레이션 방어 수단이라고 즐겨 주장한다. 이를 살펴본다. 펀드의 ‘환매’가 무엇인지도 알아본다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>I’m Always Wrong About Gold. You Probably Are, Too.</small>
+      <small>Gold bugs love to proclaim that their favorite metal is a hedge against inflation. Let’s see. Plus, what does fund “redemption” mean?</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-88550747?width=600&amp;height=600" alt="Naked figures dancing wildly around idol of golden calf" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">35</span>
+      <span class="section-chip">Personal Finance</span>
+
+
+
+
+      <span class="comments">23</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/personal-finance/amex-goes-after-a-sports-mad-crowd-with-fanatics-credit-card-588466a4?mod=mhp" target="_blank" rel="noreferrer">Amex, Fanatics 신용카드로 스포츠 열성 팬 공략한다</a></h2>
+    <p>American Express는 Fanatics와 손잡고 스포츠 플랫폼의 포인트인 FanCash를 적립할 수 있는 공동 브랜드 신용카드를 선보인다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Amex Goes After a Sports-Mad Crowd With Fanatics Credit Card</small>
+      <small>American Express is partnering with Fanatics to offer a co-branded credit card that lets people earn FanCash, the sports platform’s loyalty currency.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-85278822?width=600&amp;height=600" alt="Amex Goes After a Sports-Mad Crowd With Fanatics Credit Card" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">36</span>
+      <span class="section-chip">Culture</span>
+      <span class="label">MUSIC REVIEW</span>
+
+
+
+      <span class="comments">8</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/arts-culture/music/carnaval-de-luz-review-u2-returns-with-a-stylistic-sampler-4d9c6223?mod=mhp" target="_blank" rel="noreferrer">Carnaval de Luz: U2가 다양한 스타일을 담아 돌아오다</a></h2>
+    <p>올해 초 기대감을 높인 EP 두 장에 이어 2017년 이후 첫 신곡 앨범을 내놓았지만, 수록곡들은 하나로 잘 어우러지지 못한다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>‘Carnaval de Luz’: U2 Returns With a Stylistic Sampler</small>
+      <small>The band follows two promising EPs from earlier this year with its first album of new material since 2017, but the collection struggles to cohere.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://opinion-images.wsj.net/im-06498047?width=600&amp;height=600" alt="‘Carnaval de Luz’: U2 Returns With a Stylistic Sampler" /></div>
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">37</span>
+      <span class="section-chip">Culture</span>
+
+
+
+
+      <span class="comments">37</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/business/media/ticket-resale-grew-with-sold-out-stadiums-now-its-marking-up-poetry-slams-0cc9fcb5?mod=mhp" target="_blank" rel="noreferrer">경기장 매진 열풍 타고 커진 티켓 재판매 시장, 이제 시 낭독 경연에도 웃돈 붙인다</a></h2>
+    <p>중개업자들은 StubHub 같은 플랫폼에서 티켓을 먼저 판 뒤 매표소에서 더 싸게 사들인다. 보유하지 않은 티켓을 먼저 파는 이 방식은 투기적 판매(speculative selling)로 불린다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>Ticket Resale Grew With Sold-Out Stadiums. Now It’s Marking Up Poetry Slams.</small>
+      <small>In a practice known as speculative selling, brokers sell the tickets on platforms like StubHub, then buy them at a lower price from the box office.</small>
+    </div>
+  </details>
+
+
+  </article></li><li><article class="story-item">
+    <div class="story-kicker">
+      <span class="story-number">38</span>
+      <span class="section-chip">Culture</span>
+
+
+
+
+      <span class="comments">335</span>
+    </div>
+
+    <h2><a href="https://www.wsj.com/arts-culture/film/the-devils-movie-31fa4c79?mod=mhp" target="_blank" rel="noreferrer">모두를 불쾌하게 했던 55년 전 영화가 돌아왔다…이번에는 흥행작이다</a></h2>
+    <p>The Devils가 검열과 비난을 받은 지 수십 년 만에 복원판이 극장 표를 매진시키며 Z세대 관객들을 사로잡고 있다.</p>
+    <details class="english-disclosure">
+    <summary>영어 원문 보기</summary>
+    <div class="english-block" lang="en">
+      <small>A 55-Year-Old Film That Offended Everyone Is Back—and This Time It’s a Hit</small>
+      <small>Decades after “The Devils” was censored and condemned, a restored cut is selling out theaters and captivating Gen Z moviegoers.</small>
+    </div>
+  </details>
+
+    <div class="media-frame"><img src="https://images.wsj.net/im-88245767?width=600&amp;height=600" alt="A 55-Year-Old Film That Offended Everyone Is Back—and This Time It’s a Hit" /></div>
+  </article></li>
+        </ol>
+      </section>
+    </main>
+  </body>
+</html>
